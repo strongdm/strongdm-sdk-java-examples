@@ -1,13 +1,11 @@
-plugins {
-    id 'application'
-}
+apply plugin : "application"
+
+mainClassName = "CreateDatasource"
+
+sourceSets.main.java.srcDirs = ['src']
 
 version = '1.0.2'
 group = 'io.github.strongdm'
-
-application {
-    mainClass = 'CreateDatasource'
-}
 
 repositories {
     mavenCentral()
@@ -17,7 +15,5 @@ repositories {
 }
 
 dependencies {
-    compile "io.github.strongdm:strongdm-sdk-java:0.9.12"
+    implementation "io.github.strongdm:strongdm-sdk-java:0.9.12"
 }
-
-sourceSets.main.java.srcDirs = ['src']
