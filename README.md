@@ -7,3 +7,7 @@ This is the examples repository for the [strongDM Java SDK](https://github.com/s
 > This repository is currently under construction. The content is expected to change in the coming weeks.
 
 ---
+
+## Running the examples
+
+Within each example directory, run `gradle run` to execute a task.

@@ -1,0 +1,23 @@
+plugins {
+    id 'application'
+}
+
+version = '1.0.2'
+group = 'io.github.strongdm'
+
+application {
+    mainClass = 'CreateDatasource'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url  "https://dl.bintray.com/strongdm/strongdm-sdk-java" 
+    }   
+}
+
+dependencies {
+    compile "io.github.strongdm:strongdm-sdk-java:0.9.12"
+}
+
+sourceSets.main.java.srcDirs = ['src']
