@@ -37,6 +37,7 @@ public class CreateRole {
 
             // Define a role
             var role = new Role();
+            role.setName("Example Role");
             
             // Create the role
             var response = client.roles().create(role);
