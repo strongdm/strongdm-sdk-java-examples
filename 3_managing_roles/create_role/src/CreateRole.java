@@ -33,22 +33,20 @@ public class CreateRole {
         try {
             // Create the SDM Client
             var opts = new ClientOptions().withHostAndPort("api.strongdmdev.com", 443);
-            var client = new Client(apiAccessKey,apiSecretKey, opts);
+            var client = new Client(apiAccessKey, apiSecretKey, opts);
 
             // Define a role
             var role = new Role();
             role.setName("Example Role");
-            
+
             // Create the role
-            var response = client.roles().create(role);
+            var roleResponse = client.roles().create(role).getRole();
 
             System.out.println("Successfully created role.");
-            System.out.printf("    ID: %s\n", response.getRole().getId());
-            System.out.printf("  Name: %s\n", response.getRole().getName());
+            System.out.printf("    ID: %s\n", roleResponse.getId());
+            System.out.printf("  Name: %s\n", roleResponse.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        
     }
 }
