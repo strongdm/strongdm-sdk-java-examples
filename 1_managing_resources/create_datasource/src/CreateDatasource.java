@@ -31,7 +31,7 @@ public class CreateDatasource {
 
         try {
             // Create the SDM Client
-            var opts = new ClientOptions().withHostAndPort("api.strongdmdev.com", 443);
+            var opts = new ClientOptions();
             var client = new Client(apiAccessKey,apiSecretKey, opts);
 
             // Define a Postgres Datasource
@@ -42,6 +42,7 @@ public class CreateDatasource {
             postgres.setUsername("example");
             postgres.setPassword("example");
             postgres.setDatabase("example");
+            postgres.setPortOverride(19999);
             
             // Create the datasource
             var response = client.resources()

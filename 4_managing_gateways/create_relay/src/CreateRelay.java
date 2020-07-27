@@ -31,7 +31,7 @@ public class CreateRelay {
 
         try {
             // Create the SDM Client
-            var opts = new ClientOptions().withHostAndPort("api.strongdmdev.com", 443);
+            var opts = new ClientOptions();
             var client = new Client(apiAccessKey,apiSecretKey, opts);
 
             // Define a Relay
