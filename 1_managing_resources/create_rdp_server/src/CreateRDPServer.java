@@ -42,6 +42,7 @@ public class CreateRDPServer {
             server.setUsername("example");
             server.setPassword("example");
             server.setPort(3389);
+            server.setPortOverride(19999);
             
             // Create the server
             var response = client.resources()
