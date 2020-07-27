@@ -43,6 +43,7 @@ public class GrantingAccess {
             postgres.setUsername("example");
             postgres.setPassword("example");
             postgres.setDatabase("example");
+            postgres.setPortOverride(19999);
             
             // Create the datasource
             var postgresResponse = client.resources()
