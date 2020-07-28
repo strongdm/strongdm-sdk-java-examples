@@ -1,0 +1,19 @@
+apply plugin : "application"
+
+mainClassName = "SuspendAccount"
+
+sourceSets.main.java.srcDirs = ['src']
+
+version = '1.0.2'
+group = 'io.github.strongdm'
+
+repositories {
+    mavenCentral()
+    maven {
+        url  "https://dl.bintray.com/strongdm/strongdm-sdk-java" 
+    }   
+}
+
+dependencies {
+    implementation "io.github.strongdm:strongdm-sdk-java:0.9.12"
+}
