@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.strongdm.api.v1.*;
 
-public class UpdateDatasource {
+public class UpdateResource {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
