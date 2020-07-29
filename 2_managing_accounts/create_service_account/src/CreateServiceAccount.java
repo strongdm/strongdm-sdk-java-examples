@@ -45,8 +45,8 @@ public class CreateServiceAccount {
 
 
             System.out.println("Successfully created user.");
-            System.out.printf("    ID: %s\n", serviceResponse.getId());
-            System.out.printf("  Name: %s\n", serviceResponse.getName());
+            System.out.printf("\tID: %s\n", serviceResponse.getId());
+            System.out.printf("\tName: %s\n", serviceResponse.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }

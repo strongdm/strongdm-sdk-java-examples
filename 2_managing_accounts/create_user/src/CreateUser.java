@@ -47,8 +47,8 @@ public class CreateUser {
 
 
             System.out.println("Successfully created user.");
-            System.out.printf("     ID: %s\n", userResponse.getId());
-            System.out.printf("  Email: %s\n", userResponse.getEmail());
+            System.out.printf("\tID: %s\n", userResponse.getId());
+            System.out.printf("\tEmail: %s\n", userResponse.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
         }

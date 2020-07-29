@@ -52,8 +52,8 @@ public class RevokeAccess {
                 .getResource();
 
             System.out.println("Successfully created Postgres datasource.");
-            System.out.printf("    ID: %s\n", postgresResponse.getId());
-            System.out.printf("  Name: %s\n", postgresResponse.getName());
+            System.out.printf("\tID: %s\n", postgresResponse.getId());
+            System.out.printf("\tName: %s\n", postgresResponse.getName());
 
             // Define a role
             var role = new Role();
@@ -63,8 +63,8 @@ public class RevokeAccess {
             var roleResponse = client.roles().create(role).getRole();
 
             System.out.println("Successfully created role.");
-            System.out.printf("    ID: %s\n", roleResponse.getId());
-            System.out.printf("  Name: %s\n", roleResponse.getName());
+            System.out.printf("\tID: %s\n", roleResponse.getId());
+            System.out.printf("\tName: %s\n", roleResponse.getName());
 
             // Define a role grant
             var roleGrant = new RoleGrant();
@@ -76,7 +76,7 @@ public class RevokeAccess {
             roleGrant = grantResponse.getRoleGrant();
 
             System.out.println("Successfully created grant.");
-            System.out.printf("  ID: %s\n", roleGrant.getId());
+            System.out.printf("\tID: %s\n", roleGrant.getId());
 
             // Define a user
             var user = new User();
@@ -88,8 +88,8 @@ public class RevokeAccess {
             var userResponse = (User)client.accounts().create(user).getAccount();
 
             System.out.println("Successfully created user.");
-            System.out.printf("     ID: %s\n", userResponse.getId());
-            System.out.printf("  Email: %s\n", userResponse.getEmail());
+            System.out.printf("\tID: %s\n", userResponse.getId());
+            System.out.printf("\tEmail: %s\n", userResponse.getEmail());
 
             // Define an account attachment 
             var attachment = new AccountAttachment();
@@ -101,7 +101,7 @@ public class RevokeAccess {
             attachment = attachmentResponse.getAccountAttachment();
 
             System.out.println("Successfully created account attachment.");
-            System.out.printf("  ID: %s\n", attachment.getId());
+            System.out.printf("\tID: %s\n", attachment.getId());
 
             // Detatch user from role
             client.accountAttachments().delete(attachment.getId());

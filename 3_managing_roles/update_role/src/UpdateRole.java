@@ -43,8 +43,8 @@ public class UpdateRole {
             var createResponse = client.roles().create(create);
             var role = createResponse.getRole();
             System.out.println("Successfully created role.");
-            System.out.printf("    ID: %s\n", role.getId());
-            System.out.printf("  Name: %s\n", role.getName());
+            System.out.printf("\tID: %s\n", role.getId());
+            System.out.printf("\tName: %s\n", role.getName());
 
             // Get the role
             var getResponse = client.roles().get(role.getId());
@@ -57,8 +57,8 @@ public class UpdateRole {
             var updateResponse = client.roles().update(role);
             role = updateResponse.getRole();
             System.out.println("Successfully updated role.");
-            System.out.printf("    ID: %s\n", role.getId());
-            System.out.printf("  Name: %s\n", role.getName());
+            System.out.printf("\tID: %s\n", role.getId());
+            System.out.printf("\tName: %s\n", role.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }

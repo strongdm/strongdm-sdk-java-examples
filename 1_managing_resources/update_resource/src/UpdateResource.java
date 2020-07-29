@@ -50,8 +50,8 @@ public class UpdateResource {
                 .create(postgres);
 
             System.out.println("Successfully created Postgres datasource.");
-            System.out.printf("    ID:%s\n", createResponse.getResource().getId());
-            System.out.printf("  Name:%s\n", createResponse.getResource().getName());
+            System.out.printf("\tID: %s\n", createResponse.getResource().getId());
+            System.out.printf("\tName: %s\n", createResponse.getResource().getName());
 
             // Load the datasource to update
             var getResponse = client.resources()
@@ -68,8 +68,8 @@ public class UpdateResource {
                 .update(updatedPostgresDatasource);
 
             System.out.println("Successfully updated Postgres datasource.");
-            System.out.printf("    ID:%s\n", updateResponse.getResource().getId());
-            System.out.printf("  Name:%s\n", updateResponse.getResource().getName());
+            System.out.printf("\tID: %s\n", updateResponse.getResource().getId());
+            System.out.printf("\tName: %s\n", updateResponse.getResource().getName());
         } catch (Exception e) {
             e.printStackTrace();
         }

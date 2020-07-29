@@ -52,8 +52,8 @@ public class RevokeAccess {
                 .getResource();
 
             System.out.println("Successfully created Postgres datasource.");
-            System.out.printf("    ID: %s\n", postgresResponse.getId());
-            System.out.printf("  Name: %s\n", postgresResponse.getName());
+            System.out.printf("\tID: %s\n", postgresResponse.getId());
+            System.out.printf("\tName: %s\n", postgresResponse.getName());
 
             // Define a user
             var user = new User();
@@ -65,8 +65,8 @@ public class RevokeAccess {
             var userResponse = (User)client.accounts().create(user).getAccount();
 
             System.out.println("Successfully created user.");
-            System.out.printf("     ID: %s\n", userResponse.getId());
-            System.out.printf("  Email: %s\n", userResponse.getEmail());
+            System.out.printf("\tID: %s\n", userResponse.getId());
+            System.out.printf("\tEmail: %s\n", userResponse.getEmail());
 
             // Define an account grant
             var create = new AccountGrant();
@@ -78,7 +78,7 @@ public class RevokeAccess {
             var grant = createResponse.getAccountGrant();
 
             System.out.println("Successfully created grant.");
-            System.out.printf("  ID: %s\n", grant.getId());
+            System.out.printf("\tID: %s\n", grant.getId());
 
             // Delete the grant
             client.accountGrants().delete(grant.getId());

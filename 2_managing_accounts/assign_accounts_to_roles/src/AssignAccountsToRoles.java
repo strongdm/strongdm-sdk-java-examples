@@ -43,8 +43,8 @@ public class AssignAccountsToRoles {
             var roleResponse = client.roles().create(role).getRole();
 
             System.out.println("Successfully created role.");
-            System.out.printf("    ID: %s\n", roleResponse.getId());
-            System.out.printf("  Name: %s\n", roleResponse.getName());
+            System.out.printf("\tID: %s\n", roleResponse.getId());
+            System.out.printf("\tName: %s\n", roleResponse.getName());
 
             // Define a user
             var user = new User();
@@ -56,8 +56,8 @@ public class AssignAccountsToRoles {
             var userResponse = (User)client.accounts().create(user).getAccount();
 
             System.out.println("Successfully created user.");
-            System.out.printf("     ID: %s\n", userResponse.getId());
-            System.out.printf("  Email: %s\n", userResponse.getEmail());
+            System.out.printf("\tID: %s\n", userResponse.getId());
+            System.out.printf("\tEmail: %s\n", userResponse.getEmail());
 
             // Define an account attachment 
             var attachment = new AccountAttachment();
@@ -68,7 +68,7 @@ public class AssignAccountsToRoles {
             var attachmentResponse = (AccountAttachment)client.accountAttachments().create(attachment).getAccountAttachment();
 
             System.out.println("Successfully created account attachment.");
-            System.out.printf("  ID: %s\n", attachmentResponse.getId());
+            System.out.printf("\tID: %s\n", attachmentResponse.getId());
 
 
         } catch (Exception e) {

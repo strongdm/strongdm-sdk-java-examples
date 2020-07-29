@@ -52,8 +52,8 @@ public class GrantingAccess {
                 .getResource();
 
             System.out.println("Successfully created Postgres datasource.");
-            System.out.printf("    ID: %s\n", postgresResponse.getId());
-            System.out.printf("  Name: %s\n", postgresResponse.getName());
+            System.out.printf("\tID: %s\n", postgresResponse.getId());
+            System.out.printf("\tName: %s\n", postgresResponse.getName());
 
             // Define a user
             var user = new User();
@@ -65,8 +65,8 @@ public class GrantingAccess {
             var userResponse = (User)client.accounts().create(user).getAccount();
 
             System.out.println("Successfully created user.");
-            System.out.printf("     ID: %s\n", userResponse.getId());
-            System.out.printf("  Email: %s\n", userResponse.getEmail());
+            System.out.printf("\tID: %s\n", userResponse.getId());
+            System.out.printf("\tEmail: %s\n", userResponse.getEmail());
 
             // Define an account grant
             var grant = new AccountGrant();
@@ -77,7 +77,7 @@ public class GrantingAccess {
             var grantResponse = client.accountGrants().create(grant).getAccountGrant();
 
             System.out.println("Successfully created grant.");
-            System.out.printf("  ID: %s\n", grantResponse.getId());
+            System.out.printf("\tID: %s\n", grantResponse.getId());
 
         } catch (Exception e) {
             e.printStackTrace();

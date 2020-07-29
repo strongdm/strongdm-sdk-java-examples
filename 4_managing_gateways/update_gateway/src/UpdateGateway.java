@@ -44,9 +44,9 @@ public class UpdateGateway {
             var returnedGateway = (Gateway)gatewayResponse.getNode();
 
             System.out.println("Successfully created gateway.");
-            System.out.printf("    ID: %s\n", returnedGateway.getId());
-            System.out.printf("  Name: %s\n", returnedGateway.getName());
-            System.out.printf("  Token: %s\n", gatewayResponse.getToken());
+            System.out.printf("\tID: %s\n", returnedGateway.getId());
+            System.out.printf("\tName: %s\n", returnedGateway.getName());
+            System.out.printf("\tToken: %s\n", gatewayResponse.getToken());
 
             // Get the gateway
             var getResponse = client.nodes().get(returnedGateway.getId());
@@ -59,8 +59,8 @@ public class UpdateGateway {
             var updateResponse = client.nodes().update(gateway);
             gateway = (Gateway)updateResponse.getNode();
             System.out.println("Successfully updated gateway.");
-            System.out.printf("    ID: %s\n", gateway.getId());
-            System.out.printf("  Name: %s\n", gateway.getName());
+            System.out.printf("\tID: %s\n", gateway.getId());
+            System.out.printf("\tName: %s\n", gateway.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }

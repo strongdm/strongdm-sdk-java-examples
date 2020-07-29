@@ -50,8 +50,8 @@ public class CreateRDPServer {
                 .create(server);
 
             System.out.println("Successfully created RDP server.");
-            System.out.printf("    ID: %s\n", response.getResource().getId());
-            System.out.printf("  Name: %s\n", response.getResource().getName());
+            System.out.printf("\tID: %s\n", response.getResource().getId());
+            System.out.printf("\tName: %s\n", response.getResource().getName());
         } catch (Exception e) {
             e.printStackTrace();
         }

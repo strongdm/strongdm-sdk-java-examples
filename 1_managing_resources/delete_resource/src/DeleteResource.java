@@ -50,8 +50,8 @@ public class DeleteResource {
                 .create(postgres);
 
             System.out.println("Successfully created Postgres datasource.");
-            System.out.printf("    ID:%s\n", createResponse.getResource().getId());
-            System.out.printf("  Name:%s\n", createResponse.getResource().getName());
+            System.out.printf("\tID: %s\n", createResponse.getResource().getId());
+            System.out.printf("\tName: %s\n", createResponse.getResource().getName());
 
             // Delete the resource
             var updateResponse = client.resources()

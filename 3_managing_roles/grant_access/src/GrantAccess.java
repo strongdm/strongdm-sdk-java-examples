@@ -52,8 +52,8 @@ public class GrantAccess {
                 .getResource();
 
             System.out.println("Successfully created Postgres datasource.");
-            System.out.printf("    ID: %s\n", postgresResponse.getId());
-            System.out.printf("  Name: %s\n", postgresResponse.getName());
+            System.out.printf("\tID: %s\n", postgresResponse.getId());
+            System.out.printf("\tName: %s\n", postgresResponse.getName());
 
             // Define a role
             var role = new Role();
@@ -63,8 +63,8 @@ public class GrantAccess {
             var roleResponse = client.roles().create(role).getRole();
 
             System.out.println("Successfully created role.");
-            System.out.printf("    ID: %s\n", roleResponse.getId());
-            System.out.printf("  Name: %s\n", roleResponse.getName());
+            System.out.printf("\tID: %s\n", roleResponse.getId());
+            System.out.printf("\tName: %s\n", roleResponse.getName());
 
             // Define a role grant
             var roleGrant = new RoleGrant();
@@ -75,7 +75,7 @@ public class GrantAccess {
             var grantResponse = client.roleGrants().create(roleGrant).getRoleGrant();
 
             System.out.println("Successfully created grant.");
-            System.out.printf("  ID: %s\n", grantResponse.getId());
+            System.out.printf("\tID: %s\n", grantResponse.getId());
 
             // Define a user
             var user = new User();
@@ -87,8 +87,8 @@ public class GrantAccess {
             var userResponse = (User)client.accounts().create(user).getAccount();
 
             System.out.println("Successfully created user.");
-            System.out.printf("     ID: %s\n", userResponse.getId());
-            System.out.printf("  Email: %s\n", userResponse.getEmail());
+            System.out.printf("\tID: %s\n", userResponse.getId());
+            System.out.printf("\tEmail: %s\n", userResponse.getEmail());
 
             // Define an account attachment 
             var attachment = new AccountAttachment();
@@ -99,7 +99,7 @@ public class GrantAccess {
             var attachmentResponse = (AccountAttachment)client.accountAttachments().create(attachment).getAccountAttachment();
 
             System.out.println("Successfully created account attachment.");
-            System.out.printf("  ID: %s\n", attachmentResponse.getId());
+            System.out.printf("\tID: %s\n", attachmentResponse.getId());
 
 
         } catch (Exception e) {

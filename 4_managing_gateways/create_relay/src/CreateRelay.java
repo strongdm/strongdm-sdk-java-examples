@@ -43,9 +43,9 @@ public class CreateRelay {
             var returnedRelay = (Relay)relayResponse.getNode();
 
             System.out.println("Successfully created relay.");
-            System.out.printf("    ID: %s\n", returnedRelay.getId());
-            System.out.printf("  Name: %s\n", returnedRelay.getName());
-            System.out.printf("  Token: %s\n", relayResponse.getToken());
+            System.out.printf("\tID: %s\n", returnedRelay.getId());
+            System.out.printf("\tName: %s\n", returnedRelay.getName());
+            System.out.printf("\tToken: %s\n", relayResponse.getToken());
         } catch (Exception e) {
             e.printStackTrace();
         }

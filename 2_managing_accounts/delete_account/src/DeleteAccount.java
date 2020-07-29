@@ -45,8 +45,8 @@ public class DeleteAccount {
             var response = client.accounts().create(create);
             var user = (User)response.getAccount();
             System.out.println("Successfully created user.");
-            System.out.printf("     ID: %s\n", user.getId());
-            System.out.printf("  Email: %s\n", user.getEmail());
+            System.out.printf("\tID: %s\n", user.getId());
+            System.out.printf("\tEmail: %s\n", user.getEmail());
 
             // Delete the account
             client.accounts().delete(user.getId());

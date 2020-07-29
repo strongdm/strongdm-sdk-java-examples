@@ -44,8 +44,8 @@ public class CreateCompositeRole {
             var compositeResponse = client.roles().create(composite).getRole();
 
             System.out.println("Successfully created composite role.");
-            System.out.printf("    ID: %s\n", compositeResponse.getId());
-            System.out.printf("  Name: %s\n", compositeResponse.getName());
+            System.out.printf("\tID: %s\n", compositeResponse.getId());
+            System.out.printf("\tName: %s\n", compositeResponse.getName());
 
             // Define a role
             var role = new Role();
@@ -55,8 +55,8 @@ public class CreateCompositeRole {
             var roleResponse = client.roles().create(role).getRole();
 
             System.out.println("Successfully created role.");
-            System.out.printf("    ID: %s\n", roleResponse.getId());
-            System.out.printf("  Name: %s\n", roleResponse.getName());
+            System.out.printf("\tID: %s\n", roleResponse.getId());
+            System.out.printf("\tName: %s\n", roleResponse.getName());
 
             // Define the role attachment
             var attachment = new RoleAttachment();
@@ -67,7 +67,7 @@ public class CreateCompositeRole {
             var attachmentResponse = client.roleAttachments().create(attachment).getRoleAttachment();
 
             System.out.println("Successfully created attachment.");
-            System.out.printf("    ID: %s\n", attachmentResponse.getId());
+            System.out.printf("\tID: %s\n", attachmentResponse.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }

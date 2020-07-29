@@ -43,8 +43,8 @@ public class DeleteRole {
             var createResponse = client.roles().create(create);
             var role = createResponse.getRole();
             System.out.println("Successfully created role.");
-            System.out.printf("    ID: %s\n", role.getId());
-            System.out.printf("  Name: %s\n", role.getName());
+            System.out.printf("\tID: %s\n", role.getId());
+            System.out.printf("\tName: %s\n", role.getName());
 
             // Delete the role
             client.roles().delete(role.getId());

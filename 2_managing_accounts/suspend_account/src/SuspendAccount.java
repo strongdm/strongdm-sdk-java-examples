@@ -45,8 +45,8 @@ public class SuspendAccount {
             var response = client.accounts().create(create);
             var user = (User)response.getAccount();
             System.out.println("Successfully created user.");
-            System.out.printf("     ID: %s\n", user.getId());
-            System.out.printf("  Email: %s\n", user.getEmail());
+            System.out.printf("\tID: %s\n", user.getId());
+            System.out.printf("\tEmail: %s\n", user.getEmail());
 
             // Get the account
             var getResponse = client.accounts().get(user.getId());
@@ -59,8 +59,8 @@ public class SuspendAccount {
             var updateResponse = client.accounts().update(user);
             user = (User)updateResponse.getAccount();
             System.out.println("Successfully suspended account.");
-            System.out.printf("       ID: %s\n", user.getId());
-            System.out.printf("Suspended: %b\n", user.getSuspended());
+            System.out.printf("\tID: %s\n", user.getId());
+            System.out.printf("\tSuspended: %b\n", user.getSuspended());
         } catch (Exception e) {
             e.printStackTrace();
         }

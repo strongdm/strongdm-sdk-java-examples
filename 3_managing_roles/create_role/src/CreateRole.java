@@ -43,8 +43,8 @@ public class CreateRole {
             var roleResponse = client.roles().create(role).getRole();
 
             System.out.println("Successfully created role.");
-            System.out.printf("    ID: %s\n", roleResponse.getId());
-            System.out.printf("  Name: %s\n", roleResponse.getName());
+            System.out.printf("\tID: %s\n", roleResponse.getId());
+            System.out.printf("\tName: %s\n", roleResponse.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }

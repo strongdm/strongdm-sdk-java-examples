@@ -51,9 +51,9 @@ public class CreateSSHServer {
             var serverResponse = (SSH)response.getResource();
 
             System.out.println("Successfully created SSH server.");
-            System.out.printf("          ID: %s\n", serverResponse.getId());
-            System.out.printf("        Name: %s\n", serverResponse.getName());
-            System.out.printf("  Public Key: %s\n", serverResponse.getPublicKey());
+            System.out.printf("\tID: %s\n", serverResponse.getId());
+            System.out.printf("\tName: %s\n", serverResponse.getName());
+            System.out.printf("\tPublic Key: %s\n", serverResponse.getPublicKey());
         } catch (Exception e) {
             e.printStackTrace();
         }

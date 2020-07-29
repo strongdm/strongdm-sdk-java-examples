@@ -44,9 +44,9 @@ public class CreateGateway {
             var returnedGateway = (Gateway)gatewayResponse.getNode();
 
             System.out.println("Successfully created gateway.");
-            System.out.printf("    ID: %s\n", returnedGateway.getId());
-            System.out.printf("  Name: %s\n", returnedGateway.getName());
-            System.out.printf("  Token: %s\n", gatewayResponse.getToken());
+            System.out.printf("\tID: %s\n", returnedGateway.getId());
+            System.out.printf("\tName: %s\n", returnedGateway.getName());
+            System.out.printf("\tToken: %s\n", gatewayResponse.getToken());
 
         } catch (Exception e) {
             e.printStackTrace();
