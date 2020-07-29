@@ -60,7 +60,7 @@ public class UpdateResource {
             var updatedPostgresDatasource = getResponse.getResource();
 
             // Update the fields to change
-            updatedPostgresDatasource.setName("Updated Example Name");
+            updatedPostgresDatasource.setName("Example Name Updated");
 
             // Update the datasource
             var updateResponse = client.resources()
