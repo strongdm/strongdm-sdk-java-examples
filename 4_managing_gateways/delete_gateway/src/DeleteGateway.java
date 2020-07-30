@@ -48,22 +48,8 @@ public class DeleteGateway {
             System.out.printf("\tName: %s\n", returnedGateway.getName());
             System.out.printf("\tToken: %s\n", gatewayResponse.getToken());
 
-            // Get the gateway
-            var getResponse = client.nodes().get(returnedGateway.getId());
-            gateway = (Gateway)getResponse.getNode();
-
-            // Set fields
-            gateway.setName("example-gateway-updated");
-
-            // Update the gateway
-            var updateResponse = client.nodes().update(gateway);
-            gateway = (Gateway)updateResponse.getNode();
-            System.out.println("Successfully updated gateway.");
-            System.out.printf("\tID: %s\n", gateway.getId());
-            System.out.printf("\tName: %s\n", gateway.getName());
-
             // Delete the gateway
-            client.nodes().delete(gateway.getId());
+            client.nodes().delete(returnedGateway.getId());
             System.out.println("Successfully deleted gateway.");
         } catch (Exception e) {
             e.printStackTrace();
