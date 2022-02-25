@@ -64,6 +64,8 @@ public class CreateEKSCluster {
             cluster.setRoleArn("arn:aws:iam::000000000000:role/RoleName");
             cluster.setHealthcheckNamespace("default");
             cluster.setCertificateAuthority(certificateAuthority);
+            cluster.setTags(java.util.Map.of(
+            "env", "example"));
             
             // Create the cluster
             var response = client.resources()

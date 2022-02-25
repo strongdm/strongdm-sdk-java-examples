@@ -39,7 +39,7 @@ public class CreateServiceAccount {
             var service = new Service();
             service.setName("Example Service");
             
-            // Create the user
+            // Create the User
             var response = client.accounts().create(service);
             var serviceResponse = (Service)response.getAccount();
 

@@ -35,13 +35,13 @@ public class DeleteAccount {
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey,apiSecretKey, opts);
 
-            // Define a user
+            // Define a User
             var create = new User();
             create.setEmail("example@example.com");
             create.setFirstName("example");
             create.setLastName("example");
             
-            // Create the user
+            // Create the User
             var response = client.accounts().create(create);
             var user = (User)response.getAccount();
             System.out.println("Successfully created user.");

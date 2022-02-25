@@ -35,24 +35,24 @@ public class AssignAccountsToRoles {
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey,apiSecretKey, opts);
 
-            // Define a role
+            // Define a Role
             var role = new Role();
             role.setName("Example Role");
-            
-            // Create the role
+
+            // Create the Role
             var roleResponse = client.roles().create(role).getRole();
 
             System.out.println("Successfully created role.");
             System.out.printf("\tID: %s\n", roleResponse.getId());
             System.out.printf("\tName: %s\n", roleResponse.getName());
 
-            // Define a user
+            // Define a User
             var user = new User();
             user.setEmail("example@example.com");
             user.setFirstName("example");
             user.setLastName("example");
             
-            // Create the user
+            // Create the User
             var userResponse = (User)client.accounts().create(user).getAccount();
 
             System.out.println("Successfully created user.");

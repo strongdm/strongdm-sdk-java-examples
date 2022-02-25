@@ -1,4 +1,3 @@
-
 // Copyright 2020 StrongDM Inc
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,40 +12,78 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import java.util.concurrent.TimeUnit;
+package samples;
 
 import com.strongdm.api.v1.*;
 
-public class CreateRole {
-    public static void main(String[] args) {
+public class App {
+    public static void main(String[] args) throws Exception {
+    	// Create the SDM Client
+        Client client = new Client(
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:
         // https://www.strongdm.com/docs/admin-guide/api-credentials/
-        var apiAccessKey = System.getenv("SDM_API_ACCESS_KEY");
-        var apiSecretKey = System.getenv("SDM_API_SECRET_KEY");
-        if (apiAccessKey == null || apiSecretKey == null) {
-            System.out.println("SDM_API_ACCESS_KEY and SDM_API_SECRET_KEY must be provided");
-            return;
-        }
+            System.getenv("SDM_API_ACCESS_KEY"),
+            System.getenv("SDM_API_SECRET_KEY")
+        );
 
-        try {
-            // Create the SDM Client
-            var opts = new ClientOptions();
-            var client = new Client(apiAccessKey, apiSecretKey, opts);
+        // Define a resource (e.g., Redis)
+        Redis redis = new Redis();
+        redis.setName("accessRuleTest");
+        redis.setHostname("example.com");
+        redis.setPort(6379);
+        redis.setPortOverride(2001);
+        redis.setTags(java.util.Map.of(
+            "env", "staging"
+        ));
+        redis = (Redis)client.resources().create(redis).getResource();
 
-            // Define a role
-            var role = new Role();
-            role.setName("Example Role");
+        // Create a Role with an initial Access Rule
+        Role role = new Role();
+        role.setName("accessRuleTest");
+        AccessRule rule1 = new AccessRule();
+        rule1.setIds(java.util.List.of(redis.getId()));
+        role.setAccessRules(java.util.List.of(rule1));
+        role = client.roles().create(role).getRole();
 
-            // Create the role
-            var roleResponse = client.roles().create(role).getRole();
+        // Update the Role's Access Rules
+        AccessRule rule2 = new AccessRule();
+        rule2.setType("postgres");
+        AccessRule rule3 = new AccessRule();
+        rule3.setTags(java.util.Map.of(
+            "env", "staging"
+        ));
+        role.setAccessRules(java.util.List.of(rule2, rule3));
+        role = client.roles().update(role).getRole();
 
-            System.out.println("Successfully created role.");
-            System.out.printf("\tID: %s\n", roleResponse.getId());
-            System.out.printf("\tName: %s\n", roleResponse.getName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // The RoleGrants API has been deprecated in favor of Access Rules. When
+        // using Access Rules, the best practice is to grant resources access
+        // based on type and tags. If it is _necessary_ to grant access to
+        // specific resources in the same way as RoleGrants did, you can use
+        // resource IDs directly in Access Rules as shown in the following
+        // examples.
+
+        createRoleGrantViaAccessRulesExample(client);
+        deleteRoleGrantViaAccessRulesExample(client);
+        listRoleGrantsViaAccessRulesExample(client);
+    }
+
+    // Example: Create a Role with empty Access Rules and return the ID
+    private static String createExampleRole(Client client, java.util.List<AccessRule> ar) {
+        Role role = new Role();
+        role.setName("exampleRole-" + Integer.toString(new java.util.Random().nextInt(10000000)));
+        role.setAccessRules(ar);
+        return client.roles().create(role).getRole().getId();
+    }
+
+    // Example: Create a sample resource and return the ID
+    private static String createExampleResource(Client client) {
+        Redis redis = new Redis();
+        redis.setName("exampleResource-" + Integer.toString(new java.util.Random().nextInt(10000000)));
+        redis.setHostname("example.com");
+        redis.setPort(6379);
+        redis.setPortOverride(new java.util.Random().nextInt(20000) + 3000);
+        return client.resources().create(redis).getResource().getId();
     }
 }

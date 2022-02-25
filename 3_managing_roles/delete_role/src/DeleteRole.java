@@ -35,18 +35,18 @@ public class DeleteRole {
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
-            // Define a role
+            // Define a Role
             var create = new Role();
             create.setName("Example Role");
 
-            // Create the role
+            // Create the Role
             var createResponse = client.roles().create(create);
             var role = createResponse.getRole();
             System.out.println("Successfully created role.");
             System.out.printf("\tID: %s\n", role.getId());
             System.out.printf("\tName: %s\n", role.getName());
 
-            // Delete the role
+            // Delete the Role
             client.roles().delete(role.getId());
             System.out.println("Successfully deleted role.");
         } catch (Exception e) {

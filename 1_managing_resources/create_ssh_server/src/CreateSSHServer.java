@@ -41,6 +41,8 @@ public class CreateSSHServer {
             server.setHostname("example.strongdm.com");
             server.setUsername("example");
             server.setPort(22);
+            server.setTags(java.util.Map.of(
+            "env", "example"));
             
             // Create the server
             var response = client.resources()

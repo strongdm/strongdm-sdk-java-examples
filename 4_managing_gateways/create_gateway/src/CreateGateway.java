@@ -39,7 +39,7 @@ public class CreateGateway {
             gateway.setName("example-gateway");
             gateway.setListenAddress("gateway.exmaple.com:5555");
 
-            // Create the gateway
+            // Create the Gateway
             var gatewayResponse = client.nodes().create(gateway);
             var returnedGateway = (Gateway)gatewayResponse.getNode();
 

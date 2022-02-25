@@ -35,25 +35,25 @@ public class UpdateRole {
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
-            // Define a role
+            // Define a Role
             var create = new Role();
             create.setName("Example Role");
 
-            // Create the role
+            // Create the Role
             var createResponse = client.roles().create(create);
             var role = createResponse.getRole();
             System.out.println("Successfully created role.");
             System.out.printf("\tID: %s\n", role.getId());
             System.out.printf("\tName: %s\n", role.getName());
 
-            // Get the role
+            // Get the Role
             var getResponse = client.roles().get(role.getId());
             role = getResponse.getRole();
 
             // Set fields
             role.setName("Example Role Updated");
 
-            // Update the role
+            // Update the Role
             var updateResponse = client.roles().update(role);
             role = updateResponse.getRole();
             System.out.println("Successfully updated role.");

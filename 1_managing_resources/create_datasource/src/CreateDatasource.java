@@ -43,8 +43,10 @@ public class CreateDatasource {
             postgres.setPassword("example");
             postgres.setDatabase("example");
             postgres.setPortOverride(19999);
+            postgres.setTags(java.util.Map.of(
+            "env", "example"));
             
-            // Create the datasource
+            // Create the Datasource
             var response = client.resources()
                 .withDeadlineAfter(30, TimeUnit.SECONDS)
                 .create(postgres);

@@ -43,8 +43,10 @@ public class UpdateResource {
             postgres.setPassword("example");
             postgres.setDatabase("example");
             postgres.setPortOverride(19999);
+            postgres.setTags(java.util.Map.of(
+            "env", "example"));
             
-            // Create the datasource
+            // Create the Datasource
             var createResponse = client.resources()
                 .withDeadlineAfter(30, TimeUnit.SECONDS)
                 .create(postgres);
@@ -53,7 +55,7 @@ public class UpdateResource {
             System.out.printf("\tID: %s\n", createResponse.getResource().getId());
             System.out.printf("\tName: %s\n", createResponse.getResource().getName());
 
-            // Load the datasource to update
+            // Load the Datasource to update
             var getResponse = client.resources()
                 .withDeadlineAfter(30, TimeUnit.SECONDS)
                 .get(createResponse.getResource().getId());
@@ -62,7 +64,7 @@ public class UpdateResource {
             // Update the fields to change
             updatedPostgresDatasource.setName("Example Name Updated");
 
-            // Update the datasource
+            // Update the Datasource
             var updateResponse = client.resources()
                 .withDeadlineAfter(30, TimeUnit.SECONDS)
                 .update(updatedPostgresDatasource);
