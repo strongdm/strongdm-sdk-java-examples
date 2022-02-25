@@ -1,4 +1,3 @@
-
 // Copyright 2020 StrongDM Inc
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,105 +12,141 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import java.util.concurrent.TimeUnit;
+package samples;
 
 import com.strongdm.api.v1.*;
 
-public class RevokeAccess {
-    public static void main(String[] args) {
+public class App {
+    public static void main(String[] args) throws Exception {
+    	// Create the SDM Client
+        Client client = new Client(
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:
         // https://www.strongdm.com/docs/admin-guide/api-credentials/
-        var apiAccessKey = System.getenv("SDM_API_ACCESS_KEY");
-        var apiSecretKey = System.getenv("SDM_API_SECRET_KEY");
-        if (apiAccessKey == null || apiSecretKey == null) {
-            System.out.println("SDM_API_ACCESS_KEY and SDM_API_SECRET_KEY must be provided");
-            return;
+            System.getenv("SDM_API_ACCESS_KEY"),
+            System.getenv("SDM_API_SECRET_KEY")
+        );
+
+        // Define a resource (e.g., Redis)
+        Redis redis = new Redis();
+        redis.setName("accessRuleTest");
+        redis.setHostname("example.com");
+        redis.setPort(6379);
+        redis.setPortOverride(2001);
+        redis.setTags(java.util.Map.of(
+            "env", "staging"
+        ));
+        redis = (Redis)client.resources().create(redis).getResource();
+
+        // Create a Role with an initial Access Rule
+        Role role = new Role();
+        role.setName("accessRuleTest");
+        AccessRule rule1 = new AccessRule();
+        rule1.setIds(java.util.List.of(redis.getId()));
+        role.setAccessRules(java.util.List.of(rule1));
+        role = client.roles().create(role).getRole();
+
+        // Update the Role's Access Rules
+        AccessRule rule2 = new AccessRule();
+        rule2.setType("postgres");
+        AccessRule rule3 = new AccessRule();
+        rule3.setTags(java.util.Map.of(
+            "env", "staging"
+        ));
+        role.setAccessRules(java.util.List.of(rule2, rule3));
+        role = client.roles().update(role).getRole();
+
+        // The RoleGrants API has been deprecated in favor of Access Rules. When
+        // using Access Rules, the best practice is to grant resources access
+        // based on type and tags. If it is _necessary_ to grant access to
+        // specific resources in the same way as RoleGrants did, you can use
+        // resource IDs directly in Access Rules as shown in the following
+        // examples.
+
+        createRoleGrantViaAccessRulesExample(client);
+        deleteRoleGrantViaAccessRulesExample(client);
+        listRoleGrantsViaAccessRulesExample(client);
+    }
+
+	// Example: Create a Role grant via Access Rules
+    private static void createRoleGrantViaAccessRulesExample(Client client) {
+        // Create example resources
+        String resourceId1 = createExampleResource(client);
+        String resourceId2 = createExampleResource(client);
+        AccessRule rule = new AccessRule();
+        rule.setIds(java.util.List.of(resourceId1));
+        String roleId = createExampleRole(client, java.util.List.of(rule));
+
+        // Get the Role
+        Role role = client.roles().get(roleId).getRole();
+
+        // Append the ID to an existing static Access Rule
+        if (role.getAccessRules().size() != 1 || role.getAccessRules().get(0).getIds().size() == 0) {
+            throw new RuntimeException("unexpected access rules in role");
+        }
+        role.getAccessRules().get(0).getIds().add(resourceId2);
+
+        // Update the Role
+        client.roles().update(role);
+    }
+
+	// Example: Delete Role grant via Access Rules
+    private static void deleteRoleGrantViaAccessRulesExample(Client client) {
+        // Create example resources
+        String resourceId1 = createExampleResource(client);
+        String resourceId2 = createExampleResource(client);
+        AccessRule rule = new AccessRule();
+        rule.setIds(java.util.List.of(resourceId1, resourceId2));
+        String roleId = createExampleRole(client, java.util.List.of(rule));
+
+        // Get the Role
+        Role role = client.roles().get(roleId).getRole();
+
+        if (role.getAccessRules().size() != 1 || role.getAccessRules().get(0).getIds().size() == 0) {
+            throw new RuntimeException("unexpected access rules in role");
         }
 
-        try {
-            // Create the SDM Client
-            var opts = new ClientOptions();
-            var client = new Client(apiAccessKey,apiSecretKey, opts);
+        // Remove the ID of the second resource
+        java.util.List<String> ids = role.getAccessRules().get(0).getIds();
+        ids.remove(resourceId2);
 
-            // Define a Postgres Datasource
-            var postgres = new Postgres();
-            postgres.setName("Example Postgres Datasource");
-            postgres.setHostname("example.strongdm.com");
-            postgres.setPort(5432);
-            postgres.setUsername("example");
-            postgres.setPassword("example");
-            postgres.setDatabase("example");
-            postgres.setPortOverride(19999);
-            
-            // Create the datasource
-            var postgresResponse = client.resources()
-                .withDeadlineAfter(30, TimeUnit.SECONDS)
-                .create(postgres)
-                .getResource();
+        // Update the Role
+        client.roles().update(role);
+    }
 
-            System.out.println("Successfully created Postgres datasource.");
-            System.out.printf("\tID: %s\n", postgresResponse.getId());
-            System.out.printf("\tName: %s\n", postgresResponse.getName());
+	// Example: List Role grants via Access Rules
+    private static void listRoleGrantsViaAccessRulesExample(Client client) {
+        // Create example resources
+        String resourceId = createExampleResource(client);
+        AccessRule rule = new AccessRule();
+        rule.setIds(java.util.List.of(resourceId));
+        String roleId = createExampleRole(client, java.util.List.of(rule));
 
-            // Define a role
-            var role = new Role();
-            role.setName("Example Role");
-            
-            // Create the role
-            var roleResponse = client.roles().create(role).getRole();
+        // Get the Role
+        Role role = client.roles().get(roleId).getRole();
 
-            System.out.println("Successfully created role.");
-            System.out.printf("\tID: %s\n", roleResponse.getId());
-            System.out.printf("\tName: %s\n", roleResponse.getName());
-
-            // Define a role grant
-            var roleGrant = new RoleGrant();
-            roleGrant.setResourceId(postgresResponse.getId());
-            roleGrant.setRoleId(roleResponse.getId());
-
-            // Create the grant
-            var grantResponse = client.roleGrants().create(roleGrant);
-            roleGrant = grantResponse.getRoleGrant();
-
-            System.out.println("Successfully created grant.");
-            System.out.printf("\tID: %s\n", roleGrant.getId());
-
-            // Define a user
-            var user = new User();
-            user.setEmail("example@example.com");
-            user.setFirstName("example");
-            user.setLastName("example");
-            
-            // Create the user
-            var userResponse = (User)client.accounts().create(user).getAccount();
-
-            System.out.println("Successfully created user.");
-            System.out.printf("\tID: %s\n", userResponse.getId());
-            System.out.printf("\tEmail: %s\n", userResponse.getEmail());
-
-            // Define an account attachment 
-            var attachment = new AccountAttachment();
-            attachment.setRoleId(roleResponse.getId());
-            attachment.setAccountId(userResponse.getId());
-
-            // Create the attachment
-            var attachmentResponse = client.accountAttachments().create(attachment);
-            attachment = attachmentResponse.getAccountAttachment();
-
-            System.out.println("Successfully created account attachment.");
-            System.out.printf("\tID: %s\n", attachment.getId());
-
-            // Detatch user from role
-            client.accountAttachments().delete(attachment.getId());
-            System.out.println("Successfully deleted account attachment.");
-
-            // Delete grant from role
-            client.roleGrants().delete(roleGrant.getId());
-            System.out.println("Successfully deleted role grant.");
-        } catch (Exception e) {
-            e.printStackTrace();
+        // role.AccessRules contains each AccessRule associated with the Role
+        for (String id : role.getAccessRules().get(0).getIds()) {
+            System.out.println(id);
         }
+    }
+
+    // Example: Create a Role with empty Access Rules and return the ID
+    private static String createExampleRole(Client client, java.util.List<AccessRule> ar) {
+        Role role = new Role();
+        role.setName("exampleRole-" + Integer.toString(new java.util.Random().nextInt(10000000)));
+        role.setAccessRules(ar);
+        return client.roles().create(role).getRole().getId();
+    }
+
+    // Example: Create a sample resource and return the ID
+    private static String createExampleResource(Client client) {
+        Redis redis = new Redis();
+        redis.setName("exampleResource-" + Integer.toString(new java.util.Random().nextInt(10000000)));
+        redis.setHostname("example.com");
+        redis.setPort(6379);
+        redis.setPortOverride(new java.util.Random().nextInt(20000) + 3000);
+        return client.resources().create(redis).getResource().getId();
     }
 }

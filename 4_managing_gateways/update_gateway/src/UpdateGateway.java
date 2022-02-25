@@ -39,7 +39,7 @@ public class UpdateGateway {
             gateway.setName("example-gateway");
             gateway.setListenAddress("gateway.exmaple.com:5555");
 
-            // Create the gateway
+            // Create the Gateway
             var gatewayResponse = client.nodes().create(gateway);
             var returnedGateway = (Gateway)gatewayResponse.getNode();
 
@@ -48,14 +48,14 @@ public class UpdateGateway {
             System.out.printf("\tName: %s\n", returnedGateway.getName());
             System.out.printf("\tToken: %s\n", gatewayResponse.getToken());
 
-            // Get the gateway
+            // Get the Gateway
             var getResponse = client.nodes().get(returnedGateway.getId());
             gateway = (Gateway)getResponse.getNode();
 
             // Set fields
             gateway.setName("example-gateway-updated");
 
-            // Update the gateway
+            // Update the Gateway
             var updateResponse = client.nodes().update(gateway);
             gateway = (Gateway)updateResponse.getNode();
             System.out.println("Successfully updated gateway.");

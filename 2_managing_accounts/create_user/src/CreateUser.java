@@ -35,13 +35,13 @@ public class CreateUser {
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey,apiSecretKey, opts);
 
-            // Define a user
+            // Define a User
             var user = new User();
             user.setEmail("example@example.com");
             user.setFirstName("example");
             user.setLastName("example");
             
-            // Create the user
+            // Create the User
             var response = client.accounts().create(user);
             var userResponse = (User)response.getAccount();
 

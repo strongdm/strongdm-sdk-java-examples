@@ -39,7 +39,7 @@ public class DeleteGateway {
             gateway.setName("example-gateway");
             gateway.setListenAddress("gateway.exmaple.com:5555");
 
-            // Create the gateway
+            // Create the Gateway
             var gatewayResponse = client.nodes().create(gateway);
             var returnedGateway = (Gateway)gatewayResponse.getNode();
 
@@ -48,7 +48,7 @@ public class DeleteGateway {
             System.out.printf("\tName: %s\n", returnedGateway.getName());
             System.out.printf("\tToken: %s\n", gatewayResponse.getToken());
 
-            // Delete the gateway
+            // Delete the Gateway
             client.nodes().delete(returnedGateway.getId());
             System.out.println("Successfully deleted gateway.");
         } catch (Exception e) {
