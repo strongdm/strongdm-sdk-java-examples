@@ -57,10 +57,10 @@ public class App {
         role.setAccessRules(java.util.List.of(rule2, rule3));
         role = client.roles().update(role).getRole();
 
-        // The RoleGrants API has been deprecated in favor of Access Rules. When
-        // using Access Rules, the best practice is to grant resources access
+        // The Role Grants API has been deprecated in favor of Access Rules. When
+        // using Access Rules, the best practice is to grant Resources access
         // based on type and tags. If it is _necessary_ to grant access to
-        // specific resources in the same way as RoleGrants did, you can use
+        // specific resources in the same way as Role Grants did, you can use
         // resource IDs directly in Access Rules as shown in the following
         // examples.
 

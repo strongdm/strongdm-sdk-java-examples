@@ -58,10 +58,10 @@ public class App {
         role = client.roles().update(role).getRole();
 
         // The RoleGrants API has been deprecated in favor of Access Rules. When
-        // using Access Rules, the best practice is to grant resources access
+        // using Access Rules, the best practice is to grant Resources access
         // based on type and tags. If it is _necessary_ to grant access to
-        // specific resources in the same way as RoleGrants did, you can use
-        // resource IDs directly in Access Rules as shown in the following
+        // specific Resources in the same way as Role Grants did, you can use
+        // Resource IDs directly in Access Rules as shown in the following
         // examples.
 
         createRoleGrantViaAccessRulesExample(client);
@@ -93,7 +93,7 @@ public class App {
 
 	// Example: Delete Role grant via Access Rules
     private static void deleteRoleGrantViaAccessRulesExample(Client client) {
-        // Create example resources
+        // Create example Resources
         String resourceId1 = createExampleResource(client);
         String resourceId2 = createExampleResource(client);
         AccessRule rule = new AccessRule();
@@ -107,7 +107,7 @@ public class App {
             throw new RuntimeException("unexpected access rules in role");
         }
 
-        // Remove the ID of the second resource
+        // Remove the ID of the second Resource
         java.util.List<String> ids = role.getAccessRules().get(0).getIds();
         ids.remove(resourceId2);
 
@@ -117,7 +117,7 @@ public class App {
 
 	// Example: List Role grants via Access Rules
     private static void listRoleGrantsViaAccessRulesExample(Client client) {
-        // Create example resources
+        // Create example Resources
         String resourceId = createExampleResource(client);
         AccessRule rule = new AccessRule();
         rule.setIds(java.util.List.of(resourceId));
@@ -140,7 +140,7 @@ public class App {
         return client.roles().create(role).getRole().getId();
     }
 
-    // Example: Create a sample resource and return the ID
+    // Example: Create a sample Resource and return the ID
     private static String createExampleResource(Client client) {
         Redis redis = new Redis();
         redis.setName("exampleResource-" + Integer.toString(new java.util.Random().nextInt(10000000)));
