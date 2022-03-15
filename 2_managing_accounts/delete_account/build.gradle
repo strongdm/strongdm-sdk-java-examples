@@ -4,7 +4,6 @@ mainClassName = "DeleteAccount"
 
 sourceSets.main.java.srcDirs = ['src']
 
-version = '1.0.2'
 group = 'io.github.strongdm'
 
 repositories {
@@ -12,5 +11,5 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.strongdm:strongdm-sdk-java:0.9.30"
+    implementation "io.github.strongdm:strongdm-sdk-java:2.0.0"
 }
