@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "GrantAccess"
+mainClassName = "samples.GrantRevokeAccess"
 
 sourceSets.main.java.srcDirs = ['src']
 

@@ -16,7 +16,7 @@ package samples;
 
 import com.strongdm.api.v1.*;
 
-public class App {
+public class RoleGrantMigration {
     public static void main(String[] args) throws Exception {
     	// Create the SDM Client
         Client client = new Client(
@@ -45,21 +45,19 @@ public class App {
         // Create example resources
         String resourceId1 = createExampleResource(client);
         String resourceId2 = createExampleResource(client);
-        AccessRule rule = new AccessRule();
-        rule.setIds(java.util.List.of(resourceId1));
-        String roleId = createExampleRole(client, java.util.List.of(rule));
+        String roleId = createExampleRole(client, new java.util.ArrayList<AccessRule>());
 
         // Get the Role
         Role role = client.roles().get(roleId).getRole();
 
         // Append the ID to an existing static Access Rule
+        if (role.getAccessRules().size() > 1 || (role.getAccessRules().size() == 1 && role.getAccessRules().get(0).getIds().size() == 0)) {
+            throw new RuntimeException("unexpected access rules in role");
+        }
         if (role.getAccessRules().size() == 0) {
             AccessRule rule = new AccessRule();
-            rule.setIds(new List<String>());
+            rule.setIds(new java.util.ArrayList<String>());
             role.setAccessRules(java.util.List.of(rule));
-        }
-        if (role.getAccessRules().size() != 1 || role.getAccessRules().get(0).getIds().size() == 0) {
-            throw new RuntimeException("unexpected access rules in role");
         }
         role.getAccessRules().get(0).getIds().add(resourceId2);
 
@@ -87,7 +85,7 @@ public class App {
         java.util.List<String> ids = role.getAccessRules().get(0).getIds();
         ids.remove(resourceId2);
         if (ids.size() == 0) {
-            role.setAccessRules(new java.util.List<AccessRule>());
+            role.setAccessRules(new java.util.ArrayList<AccessRule>());
         }
 
         // Update the Role

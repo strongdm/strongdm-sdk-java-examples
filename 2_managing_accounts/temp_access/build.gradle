@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "CreateUser"
+mainClassName = "TempAccess"
 
 sourceSets.main.java.srcDirs = ['src']
 

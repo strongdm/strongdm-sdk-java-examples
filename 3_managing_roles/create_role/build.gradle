@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "CreateRole"
+mainClassName = "samples.CreateRole"
 
 sourceSets.main.java.srcDirs = ['src']
 

@@ -16,7 +16,7 @@ package samples;
 
 import com.strongdm.api.v1.*;
 
-public class App {
+public class GrantRevokeAccess {
     public static void main(String[] args) throws Exception {
     	// Create the SDM Client
         Client client = new Client(
@@ -59,8 +59,8 @@ public class App {
 
         // Revoke access:
 
-        role.setAccessRules(new java.util.List<AccessRule>());
-        role = client.resources().update(role).getRole();
+        role.setAccessRules(new java.util.ArrayList<AccessRule>());
+        role = client.roles().update(role).getRole();
     }
 
 }
