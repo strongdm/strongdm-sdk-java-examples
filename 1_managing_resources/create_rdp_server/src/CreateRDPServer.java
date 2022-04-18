@@ -36,6 +36,7 @@ public class CreateRDPServer {
             var client = new Client(apiAccessKey,apiSecretKey, opts);
 
             // Define an RDP server
+            // Set `server.setPortOverride` to `-1` to auto-generate a port if Port Overrides is enabled.
             var server = new RDP();
             server.setName("Example RDP Server");
             server.setHostname("example.strongdm.com");
