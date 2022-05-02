@@ -35,6 +35,7 @@ public class CreateDatasource {
             var client = new Client(apiAccessKey,apiSecretKey, opts);
 
             // Define a Postgres Datasource
+            // Set `postgres.setPortOverride` to `-1` to auto-generate a port if Port Overrides is enabled.
             var postgres = new Postgres();
             postgres.setName("Example Postgres Datasource");
             postgres.setHostname("example.strongdm.com");
