@@ -21,7 +21,7 @@ public class DeleteResource {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:
-        // https://www.strongdm.com/docs/admin-guide/api-credentials/
+        // https://www.strongdm.com/docs/api/api-keys/
         var apiAccessKey = System.getenv("SDM_API_ACCESS_KEY");
         var apiSecretKey = System.getenv("SDM_API_SECRET_KEY");
         if (apiAccessKey == null || apiSecretKey == null) {

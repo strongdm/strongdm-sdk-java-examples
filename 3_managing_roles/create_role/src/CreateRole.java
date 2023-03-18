@@ -23,7 +23,7 @@ public class CreateRole {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:
-        // https://www.strongdm.com/docs/admin-guide/api-credentials/
+        // https://www.strongdm.com/docs/api/api-keys/
             System.getenv("SDM_API_ACCESS_KEY"),
             System.getenv("SDM_API_SECRET_KEY")
         );
