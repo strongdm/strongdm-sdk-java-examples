@@ -14,6 +14,7 @@
 //
 import com.strongdm.api.*;
 import java.nio.charset.StandardCharsets;
+import org.json.JSONObject;
 
 public class QueryReplay {
     public static void main(String[] args) {
@@ -30,7 +31,7 @@ public class QueryReplay {
         try {
             // Create the SDM Client
             ClientOptions opts = new ClientOptions();
-            Client client = new Client(apiAccessKey,apiSecretKey, opts);
+            Client client = new Client(apiAccessKey, apiSecretKey, opts);
 
             // You'll need an SSH resource that has had queries made against it, provide its name:
             String resourceName = "Example";
@@ -40,13 +41,27 @@ public class QueryReplay {
                 resource = r;
             }
             if (resource == null) {
-                throw(new Exception("Couldn't find resource named "+resourceName));
+                throw (new Exception("Couldn't find resource named " + resourceName));
             }
             System.out.printf("Queries made against %s:\n", resourceName);
-            Iterable<Query> queryIterator = client.queries().list("resource_id:?", resource.getId());
+
+            Iterable<Query> queryIterator =
+                    client.queries().list("resource_id:?", resource.getId());
             for (Query q : queryIterator) {
-                if (q.getReplayable()) {
-                    System.out.printf("Replaying query made at %s\n", q.getTimestamp());
+                AccountGetResponse accountResponse =
+                        client.snapshotAt(q.getTimestamp()).accounts().get(q.getAccountId());
+                User user = (User) accountResponse.getAccount();
+
+                if (q.getEncrypted()) {
+                    System.out.printf(
+                            "Skipping encrypted query made by %s at %s\n",
+                            user.getEmail(), q.getTimestamp());
+                    System.out.println(
+                            "See encrypted_query_replay for an example of query decryption.");
+                } else if (q.getReplayable()) {
+                    System.out.printf(
+                            "Replaying query made by %s at %s\n",
+                            user.getEmail(), q.getTimestamp());
                     Iterable<ReplayChunk> replayChunks = client.replays().list("id:?", q.getId());
                     for (ReplayChunk chunk : replayChunks) {
                         for (ReplayChunkEvent ev : chunk.getEvents()) {
@@ -57,6 +72,11 @@ public class QueryReplay {
                         }
                         System.out.println();
                     }
+                } else {
+                    String command = new JSONObject(q.getQueryBody()).optString("command");
+                    System.out.printf(
+                            "Command run by %s at %s: %s\n",
+                            user.getEmail(), q.getTimestamp(), command);
                 }
             }
         } catch (Exception e) {
