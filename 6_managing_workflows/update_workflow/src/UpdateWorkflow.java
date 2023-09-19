@@ -37,7 +37,8 @@ public class UpdateWorkflow {
 
             // Define a Workflow
             var create = new Workflow();
-            create.setName("Example Workflow");
+            create.setName("Example Update Worfklow");
+            create.setDescription("Example Workflow Description");
 
             // Create the Workflow
             var createResponse = client.workflows().create(create);
@@ -50,15 +51,53 @@ public class UpdateWorkflow {
             var getResponse = client.workflows().get(workflow.getId());
             workflow = getResponse.getWorkflow();
 
-            // Set fields
-            workflow.setName("Example Workflow Updated");
+	        // Update Workflow Name
+            var newName = "Example New Name";
+            workflow.setName(newName);
+            workflow = client.workflows().update(workflow).getWorkflow();
 
-            // Update the Workflow
-            var updateResponse = client.workflows().update(workflow);
-            workflow = updateResponse.getWorkflow();
-            System.out.println("Successfully updated workflow.");
+            System.out.println("Successfully updated workflow name.");
             System.out.printf("\tID: %s\n", workflow.getId());
             System.out.printf("\tName: %s\n", workflow.getName());
+
+	        // Update Workflow Description
+            var newDescription = "Example New Description";
+            workflow.setDescription(newDescription);
+            workflow = client.workflows().update(workflow).getWorkflow();
+
+            System.out.println("Successfully updated workflow description.");
+            System.out.printf("\tID: %s\n", workflow.getId());
+            System.out.printf("\tDescription: %s\n", workflow.getDescription());
+            
+	        // Update Workflow Weight
+            var oldWeight = workflow.getWeight();
+            workflow.setWeight(oldWeight + 20);
+            workflow = client.workflows().update(workflow).getWorkflow();
+
+            System.out.println("Successfully updated workflow weight.");
+            System.out.printf("\tID: %s\n", workflow.getId());
+            System.out.printf("\tWeight: %s\n", workflow.getWeight());
+            
+	        // Update Workflow AutoGrant
+            var isAutoGrant = workflow.getAutoGrant();
+            workflow.setAutoGrant(!isAutoGrant);
+            workflow = client.workflows().update(workflow).getWorkflow();
+            
+            System.out.println("Successfully updated workflow auto grant.");
+            System.out.printf("\tID: %s\n", workflow.getId());
+            System.out.printf("\tAuto Grant: %s\n", workflow.getAutoGrant());
+            
+            // Update Workflow Enabled
+            // The requirements to enable a workflow are that the workflow must be either set
+            // up with auto grant enabled or have one or more WorkflowApprovers created for
+            // the workflow.
+            workflow.setAutoGrant(true);
+            workflow.setEnabled(true);
+            workflow = client.workflows().update(workflow).getWorkflow();
+
+            System.out.println("Successfully updated workflow auto grant.");
+            System.out.printf("\tID: %s\n", workflow.getId());
+            System.out.printf("\tEnabled: %s\n", workflow.getEnabled());
         } catch (Exception e) {
             e.printStackTrace();
         }
