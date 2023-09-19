@@ -38,13 +38,13 @@ public class CreateManualGrantWorkflow {
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
             // Create an access rule for the workflow
-            AccessRule accessRule = new AccessRule();
+            var accessRule = new AccessRule();
             Map<String, String> tags = new Hashmap<>();
             tags.put("env", "dev");
             accessRule.setTags(tags);
 
             // Create a Workflow
-            Workflow workflow = new Workflow();
+            var workflow = new Workflow();
             workflow.setName("Example Create Auto Grant Worfklow");
             workflow.setDescription("Example Workflow Description");
             workflow.setAutoGrant(true);

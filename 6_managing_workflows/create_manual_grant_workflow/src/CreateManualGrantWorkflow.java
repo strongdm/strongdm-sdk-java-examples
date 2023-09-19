@@ -20,7 +20,7 @@ import javax.management.relation.Role;
 
 import com.strongdm.api.v1.*;
 
-public class CreateManualGrantWorkflow {
+public class CreateWorkflowApprover {
     public static void main(String[] args) throws Exception {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -40,13 +40,13 @@ public class CreateManualGrantWorkflow {
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
             // Create an access rule for the workflow
-            AccessRule accessRule = new AccessRule();
+            var accessRule = new AccessRule();
             Map<String, String> tags = new Hashmap<>();
             tags.put("env", "dev");
             accessRule.setTags(tags);
 
             // Create a Workflow
-            Workflow workflow = new Workflow();
+            var workflow = new Workflow();
             workflow.setName("Example Create Manual Grant Worfklow");
             workflow.setDescription("Example Workflow Description");
             workflow.setAccessRule(accessRule);

@@ -37,7 +37,8 @@ public class DeleteWorkflow {
 
             // Define a Workflow
             var create = new Workflow();
-            create.setName("Example Workflow");
+            create.setName("Example Delete Workflow");
+            create.setDescription("Example Workflow Description");
 
             // Create the Workflow
             var createResponse = client.workflows().create(create);
