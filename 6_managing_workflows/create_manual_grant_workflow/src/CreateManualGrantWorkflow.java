@@ -16,8 +16,6 @@ package samples;
 
 import java.util.Map;
 
-import javax.management.relation.Role;
-
 import com.strongdm.api.v1.*;
 
 public class CreateWorkflowApprover {

@@ -75,6 +75,41 @@ public class CreateManualGrantWorkflow {
             System.out.println("Successfully created workflow role.");
             System.out.printf("\tWorkflow ID: %s\n", workflowRole.getWorkflowId());
             System.out.printf("\tRole ID: %s\n", workflowRole.getRoleId());
+            
+            // To manually enable this workflow, you must add workflow approvers
+            // to this workflow.
+            // Two steps are needed to add a workflow approver:
+            // Step 1: create an Account
+            // Step 2: create a WorkflowApprover
+
+	        // Create an approver - used for creating a workflow approver
+            var user = new User();
+            user.setEmail("create-workflow-approver-example@example.com");
+            user.setFirstName("example");
+            user.setLastName("example");
+            user = client.accounts().create(user).getAccount();
+
+            // Create a workflow approver
+            var workflowApprover = new WorkflowApprover();
+            workflowApprover.setWorkflowId(workflow.getId());
+            workflowApprover.setApproverId(user.getId());
+            workflowApprover = client.workflowApprovers().create().getWorkflowApprover();
+
+            System.out.println("Successfully created workflow approver.");
+            System.out.printf("\tWorkflow ID: %s\n", workflowApprover.getWorkflowId());
+            System.out.printf("\tApprover ID: %s\n", workflowApprover.getApproverId());
+
+                
+            // You can enable this workflow after adding workflow approvers.
+            
+            // Update Workflow Enabled
+            workflow.setEnabled(true);
+            workflow = client.workflows().update(workflow).getWorkflow();
+
+            System.out.println("Successfully updated workflow enabled.");
+            System.out.printf("\tID: %s\n", workflow.getId());
+            System.out.printf("\tEnabled: %s\n", workflow.getEnabled());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
