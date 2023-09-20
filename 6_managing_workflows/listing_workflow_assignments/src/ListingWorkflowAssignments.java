@@ -26,7 +26,7 @@ import javax.management.relation.Role;
 import com.strongdm.api.v1.*;
 
 public class ListingWorkflowAssignments {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:
