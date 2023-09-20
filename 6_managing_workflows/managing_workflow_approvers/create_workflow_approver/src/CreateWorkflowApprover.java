@@ -14,10 +14,6 @@
 //
 package samples;
 
-import java.util.Map;
-
-import javax.management.relation.Role;
-
 import com.strongdm.api.v1.*;
 
 public class CreateWorkflowApprover {
@@ -41,9 +37,8 @@ public class CreateWorkflowApprover {
 
             // Create an access rule for the workflow
             var accessRule = new AccessRule();
-            Map<String, String> tags = new Hashmap<>();
-            tags.put("env", "dev");
-            accessRule.setTags(tags);
+            accessRule.setTags(java.util.Map.of("env", "example"));
+
 
             // Create a Workflow
             var workflow = new Workflow();

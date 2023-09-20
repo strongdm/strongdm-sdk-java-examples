@@ -13,7 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.strongdm.api.v1.*;
@@ -38,9 +37,8 @@ public class DeleteWorkflowApprover {
 
             // Create an access rule for the workflow
             var accessRule = new AccessRule();
-            Map<String, String> tags = new Hashmap<>();
-            tags.put("env", "dev");
-            accessRule.setTags(tags);
+            accessRule.setTags(java.util.Map.of("env", "example"));
+
 
             // Create a Workflow
             var workflow = new Workflow();
