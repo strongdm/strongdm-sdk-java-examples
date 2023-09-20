@@ -43,16 +43,6 @@ public class ListingWorkflowAssignments {
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
-            // Create a Workflow
-            var workflow = new Workflow();
-            workflow.setName("Example Create Manual Grant Worfklow");
-            workflow.setDescription("Example Workflow Description");
-            workflow = client.workflows().create(workflow).getWorkflow();
-
-            System.out.println("Successfully created workflow.");
-            System.out.printf("\tID: %s\n", workflow.getId());
-            System.out.printf("\tName: %s\n", workflow.getName());
-
             // Create a resource - used for workflow assignments
             var tags = java.util.Map.of("env", "example");
             var resource = new Mysql();
@@ -69,27 +59,25 @@ public class ListingWorkflowAssignments {
                         .withDeadlineAfter(30, TimeUnit.SECONDS)
                         .create(resource)
                         .getResource();
-            
-            // Update workflow assignments
-            // For this example, since our created resource has the same tag as the access rule,
-            // the workflow assignment should be created automatically
+
+            // Create a Workflow and assign the resources via a dynamic access rule
             var rule1 = new AccessRule();
             rule2.setType("mysql");
             var rule2 = new AccessRule();
             rule2.setTags(tags);
+            var workflow = new Workflow();
+            workflow.setName("Example Create Manual Grant Worfklow");
+            workflow.setDescription("Example Workflow Description");
             workflow.setAccessRules(java.util.List.of(rule1, rule2));
-            client.workflows().update(workflow).getWorkflow();
+            workflow = client.workflows().create(workflow).getWorkflow();
 
-            var workflowId = workflow.getId();
-            var resourceId = resource.getId();
-
-            System.out.println("Successfully created workflow assignment.");
-            System.out.printf("\tWorkflow ID: %s\n", workflowId);
-            System.out.printf("\tResource ID: %s\n", resourceId);
+            System.out.println("Successfully created workflow.");
+            System.out.printf("\tID: %s\n", workflow.getId());
+            System.out.printf("\tName: %s\n", workflow.getName());
 
 	        // List WorkflowAssignments
             var filter = "resource:" + resourceId + " workflow:" + workflowId;
-            Iterable<WorkflowAssignment> listResp = client.workflowAssignments().list(filter); // TODO: why does var make IDE complain?
+            Iterable<WorkflowAssignment> listResp = client.workflowAssignments().list(filter);
 
             var assignments = new ArrayList<>();
             for (WorkflowAssignment n : listResp) {
@@ -108,6 +96,5 @@ public class ListingWorkflowAssignments {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
     }
 }
