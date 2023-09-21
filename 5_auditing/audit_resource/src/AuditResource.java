@@ -17,6 +17,10 @@ import java.util.Date;
 
 public class AuditResource {
     public static void main(String[] args) {
+
+            Workflow w = new Workflow();
+            w.setName("Hello");
+            System.out.println(w.getName());
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:

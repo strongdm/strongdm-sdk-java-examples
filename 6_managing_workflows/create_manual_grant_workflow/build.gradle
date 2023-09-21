@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "AuditResource"
+mainClassName = "CreateManualGrantWorkflow"
 
 sourceSets.main.java.srcDirs = ['src']
 
