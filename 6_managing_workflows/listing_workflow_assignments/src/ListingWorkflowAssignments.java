@@ -58,12 +58,11 @@ public class ListingWorkflowAssignments {
             // Create a Workflow and assign the resources via a dynamic access rule
             var rule1 = new AccessRule();
             rule1.setType("mysql");
-            var rule2 = new AccessRule();
-            rule2.setTags(tags);
+            rule1.setTags(tags); 
             var workflow = new Workflow();
             workflow.setName("Example Create Manual Grant Worfklow");
             workflow.setDescription("Example Workflow Description");
-            workflow.setAccessRules(java.util.List.of(rule1, rule2));
+            workflow.setAccessRules(java.util.List.of(rule1));
             workflow = client.workflows().create(workflow).getWorkflow();
 
             var resourceId = resourceResponse.getId();
