@@ -12,18 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package samples;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.relation.Role;
-import javax.swing.text.html.HTML.Tag;
-import javax.management.relation.Role;
-
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class ListingWorkflowAssignments {
     public static void main(String[] args) {
@@ -55,14 +50,14 @@ public class ListingWorkflowAssignments {
             resource.setPortOverride(19999);
             resource.setTags(tags);
             
-            resource = client.resources()
+            var resourceResponse = client.resources()
                         .withDeadlineAfter(30, TimeUnit.SECONDS)
                         .create(resource)
                         .getResource();
 
             // Create a Workflow and assign the resources via a dynamic access rule
             var rule1 = new AccessRule();
-            rule2.setType("mysql");
+            rule1.setType("mysql");
             var rule2 = new AccessRule();
             rule2.setTags(tags);
             var workflow = new Workflow();
@@ -70,6 +65,9 @@ public class ListingWorkflowAssignments {
             workflow.setDescription("Example Workflow Description");
             workflow.setAccessRules(java.util.List.of(rule1, rule2));
             workflow = client.workflows().create(workflow).getWorkflow();
+
+            var resourceId = resourceResponse.getId();
+            var workflowId = workflow.getId();
 
             System.out.println("Successfully created workflow.");
             System.out.printf("\tID: %s\n", workflow.getId());
@@ -82,14 +80,13 @@ public class ListingWorkflowAssignments {
             var assignments = new ArrayList<>();
             for (WorkflowAssignment n : listResp) {
                 var workflowAssignment = n;
-                System.out.println("WorkflowAssignment Resource ID: %s\n", n.getResourceId());
-                System.out.println("WorkflowAssignment Workflow ID: %s\n", n.getWorkflowId());
+                System.out.printf("WorkflowAssignment Resource ID: %s\n", n.getResourceId());
+                System.out.printf("WorkflowAssignment Workflow ID: %s\n", n.getWorkflowId());
                 assignments.add(workflowAssignment);
             }
             
             if (assignments.size() !=1) {
-                throw new RuntimeException("list failed: expected %d workflows, got %d",
-                                            1, assignments.size());
+                throw new RuntimeException("list failed: expected " + 1 + "workflows, got " + assignments.size());
             }
             
 	        System.out.println("Successfully list WorkflowAssignment.");

@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package samples;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
-public class CreateManualGrantWorkflow {
+public class CreateAutoGrantWorkflow {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -45,7 +44,7 @@ public class CreateManualGrantWorkflow {
             workflow.setDescription("Example Workflow Description");
             workflow.setAutoGrant(true);
             workflow.setEnabled(true);
-            workflow.setAccessRule(accessRule);
+            workflow.setAccessRules(java.util.List.of(accessRule));
 
             workflow = client.workflows().create(workflow).getWorkflow();
 

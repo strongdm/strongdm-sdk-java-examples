@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package samples;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class CreateWorkflowApprover {
     public static void main(String[] args) {
@@ -44,7 +43,7 @@ public class CreateWorkflowApprover {
             var workflow = new Workflow();
             workflow.setName("Example Create Worfklow Approver");
             workflow.setDescription("Example Workflow Description");
-            workflow.setAccessRule(accessRule);
+            workflow.setAccessRules(java.util.List.of(accessRule));
             workflow = client.workflows().create(workflow).getWorkflow();
 
 	        // Create an approver - used for creating a workflow approver
@@ -52,13 +51,13 @@ public class CreateWorkflowApprover {
             user.setEmail("create-workflow-approver-example@example.com");
             user.setFirstName("example");
             user.setLastName("example");
-            user = client.accounts().create(user).getAccount();
+            user = (User)client.accounts().create(user).getAccount();
 
             // Create a workflow approver
             var workflowApprover = new WorkflowApprover();
             workflowApprover.setWorkflowId(workflow.getId());
             workflowApprover.setApproverId(user.getId());
-            workflowApprover = client.workflowApprovers().create().getWorkflowApprover();
+            workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
 
             System.out.println("Successfully created workflow approver.");
             System.out.printf("\tWorkflow ID: %s\n", workflowApprover.getWorkflowId());

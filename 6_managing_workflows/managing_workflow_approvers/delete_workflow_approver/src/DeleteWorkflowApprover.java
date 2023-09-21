@@ -13,9 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import java.util.concurrent.TimeUnit;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class DeleteWorkflowApprover {
     public static void main(String[] args) {
@@ -44,7 +43,7 @@ public class DeleteWorkflowApprover {
             var workflow = new Workflow();
             workflow.setName("Example Delete Worfklow Approver");
             workflow.setDescription("Example Workflow Description");
-            workflow.setAccessRule(accessRule);
+            workflow.setAccessRules(java.util.List.of(accessRule));
             workflow = client.workflows().create(workflow).getWorkflow();
 
 	        // Create an approver - used for creating a workflow approver
@@ -52,13 +51,13 @@ public class DeleteWorkflowApprover {
             user.setEmail("delete-workflow-approver-example@example.com");
             user.setFirstName("example");
             user.setLastName("example");
-            user = client.accounts().create(user).getAccount();
+            user = (User)client.accounts().create(user).getAccount();
 
             // Create a workflow approver
             var workflowApprover = new WorkflowApprover();
             workflowApprover.setWorkflowId(workflow.getId());
             workflowApprover.setApproverId(user.getId());
-            workflowApprover = client.workflowApprovers().create().getWorkflowApprover();
+            workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
 
             // Delete a Workflow Approver
             client.workflowApprovers().delete(workflowApprover.getId());

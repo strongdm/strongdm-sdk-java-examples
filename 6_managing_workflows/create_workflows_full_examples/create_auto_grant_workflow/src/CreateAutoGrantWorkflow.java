@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package samples;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
-public class CreateManualGrantWorkflow {
+public class CreateAutoGrantWorkflow {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -42,11 +41,11 @@ public class CreateManualGrantWorkflow {
 
             // Create a Workflow
             Workflow workflow = new Workflow();
-            workflow.setName("Example Create Auto Grant Worfklow");
+            workflow.setName("Example Create Auto Grant Worfklow Full");
             workflow.setDescription("Example Workflow Description");
             workflow.setAutoGrant(true);
             workflow.setEnabled(true);
-            workflow.setAccessRule(accessRule);
+            workflow.setAccessRules(java.util.List.of(accessRule));
 
             workflow = client.workflows().create(workflow).getWorkflow();
 
@@ -67,8 +66,8 @@ public class CreateManualGrantWorkflow {
 
             // Create a workflow role
             var workflowRole = new WorkflowRole();
-            workflowRole.workflowId = workflow.getId();
-            workflowRole.roleId = role.getId();
+            workflowRole.setWorkflowId(workflow.getId());
+            workflowRole.setRoleId(role.getId());
             workflowRole = client.workflowRoles().create(workflowRole).getWorkflowRole();
             
             System.out.println("Successfully created workflow role.");

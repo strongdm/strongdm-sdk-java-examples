@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "samples.CreateWorkflowRole"
+mainClassName = "CreateWorkflowRole"
 
 sourceSets.main.java.srcDirs = ['src']
 
@@ -11,5 +11,5 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.strongdm:strongdm-sdk-java:2.0.0"
+    implementation "io.github.strongdm:strongdm-sdk-java:4.8.0"
 }

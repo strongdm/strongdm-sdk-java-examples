@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package samples;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class CreateWorkflowRole {
     public static void main(String[] args) {
@@ -43,7 +42,7 @@ public class CreateWorkflowRole {
             var workflow = new Workflow();
             workflow.setName("Example Create Worfklow Approver");
             workflow.setDescription("Example Workflow Description");
-            workflow.setAccessRule(accessRule);
+            workflow.setAccessRules(java.util.List.of(accessRule));
             workflow = client.workflows().create(workflow).getWorkflow();
 
             // Create a Role
@@ -53,8 +52,8 @@ public class CreateWorkflowRole {
 
             // Create a workflow role
             var workflowRole = new WorkflowRole();
-            workflowRole.workflowId = workflow.getId();
-            workflowRole.roleId = role.getId();
+            workflowRole.setWorkflowId(workflow.getId());
+            workflowRole.setRoleId(role.getId());
             workflowRole = client.workflowRoles().create(workflowRole).getWorkflowRole();
             
             System.out.println("Successfully created workflow role.");

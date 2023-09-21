@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package samples;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class CreateManualGrantWorkflow {
     public static void main(String[] args) {
@@ -44,7 +43,7 @@ public class CreateManualGrantWorkflow {
             var workflow = new Workflow();
             workflow.setName("Example Create Manual Grant Worfklow");
             workflow.setDescription("Example Workflow Description");
-            workflow.setAccessRule(accessRule);
+            workflow.setAccessRules(java.util.List.of(accessRule));
 
             workflow = client.workflows().create(workflow).getWorkflow();
 
@@ -65,8 +64,8 @@ public class CreateManualGrantWorkflow {
 
             // Create a workflow role
             var workflowRole = new WorkflowRole();
-            workflowRole.workflowId = workflow.getId();
-            workflowRole.roleId = role.getId();
+            workflowRole.setWorkflowId(workflow.getId());
+            workflowRole.setRoleId(role.getId());
             workflowRole = client.workflowRoles().create(workflowRole).getWorkflowRole();
             
             System.out.println("Successfully created workflow role.");
@@ -84,13 +83,13 @@ public class CreateManualGrantWorkflow {
             user.setEmail("create-workflow-approver-example@example.com");
             user.setFirstName("example");
             user.setLastName("example");
-            user = client.accounts().create(user).getAccount();
+            user = (User)client.accounts().create(user).getAccount();
 
             // Create a workflow approver
             var workflowApprover = new WorkflowApprover();
             workflowApprover.setWorkflowId(workflow.getId());
             workflowApprover.setApproverId(user.getId());
-            workflowApprover = client.workflowApprovers().create().getWorkflowApprover();
+            workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
 
             System.out.println("Successfully created workflow approver.");
             System.out.printf("\tWorkflow ID: %s\n", workflowApprover.getWorkflowId());

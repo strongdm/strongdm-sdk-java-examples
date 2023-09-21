@@ -13,9 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import java.util.concurrent.TimeUnit;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class DeleteWorkflow {
     public static void main(String[] args) {
