@@ -1,3 +1,4 @@
+
 // Copyright 2023 StrongDM Inc
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +16,7 @@
 
 import com.strongdm.api.*;
 
-public class CreateWorkflowApprover {
+public class DeleteWorkflowApproverAccount {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -27,7 +28,6 @@ public class CreateWorkflowApprover {
             System.out.println("SDM_API_ACCESS_KEY and SDM_API_SECRET_KEY must be provided");
             return;
         }
-        
 
         try {
             // Create the SDM Client
@@ -41,14 +41,14 @@ public class CreateWorkflowApprover {
 
             // Create a Workflow
             var workflow = new Workflow();
-            workflow.setName("Example Create Worfklow Approver");
+            workflow.setName("Example Delete Workflow Approver");
             workflow.setDescription("Example Workflow Description");
             workflow.setAccessRules(java.util.List.of(accessRule));
             workflow = client.workflows().create(workflow).getWorkflow();
 
-	        // Create an approver - used for creating a workflow approver
+	        // Create an approver account - used for creating a workflow approver
             var user = new User();
-            user.setEmail("create-workflow-approver-example@example.com");
+            user.setEmail("delete-workflow-approver-example@example.com");
             user.setFirstName("example");
             user.setLastName("example");
             user = (User)client.accounts().create(user).getAccount();
@@ -56,15 +56,15 @@ public class CreateWorkflowApprover {
             // Create a workflow approver
             var workflowApprover = new WorkflowApprover();
             workflowApprover.setWorkflowId(workflow.getId());
-            workflowApprover.setApproverId(user.getId());
+            workflowApprover.setAccountId(user.getId());
             workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
 
-            System.out.println("Successfully created workflow approver.");
-            System.out.printf("\tWorkflow ID: %s\n", workflowApprover.getWorkflowId());
-            System.out.printf("\tApprover ID: %s\n", workflowApprover.getApproverId());
+            // Delete a Workflow Approver
+            client.workflowApprovers().delete(workflowApprover.getId());
+            
+            System.out.println("Successfully deleted workflow approver.");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
     }
 }

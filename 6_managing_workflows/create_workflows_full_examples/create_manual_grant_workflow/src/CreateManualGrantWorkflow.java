@@ -41,7 +41,7 @@ public class CreateManualGrantWorkflow {
 
             // Create a Workflow
             var workflow = new Workflow();
-            workflow.setName("Example Create Manual Grant Worfklow");
+            workflow.setName("Example Create Manual Grant Workflow");
             workflow.setDescription("Example Workflow Description");
             workflow.setAccessRules(java.util.List.of(accessRule));
 

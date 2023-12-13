@@ -15,7 +15,7 @@
 
 import com.strongdm.api.*;
 
-public class CreateWorkflowRole {
+public class CreateWorkflowApproverAccount {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -38,27 +38,30 @@ public class CreateWorkflowRole {
             var accessRule = new AccessRule();
             accessRule.setTags(java.util.Map.of("env", "example"));
 
+
             // Create a Workflow
             var workflow = new Workflow();
-            workflow.setName("Example Create Workflow Role");
+            workflow.setName("Example Create Workflow Approver");
             workflow.setDescription("Example Workflow Description");
             workflow.setAccessRules(java.util.List.of(accessRule));
             workflow = client.workflows().create(workflow).getWorkflow();
 
-            // Create a Role
-            var role = new Role();
-            role.setName("Example Role for Creating Workflow Role");
-            role = client.roles().create(role).getRole();
+	        // Create an approver account - used for creating a workflow approver
+            var user = new User();
+            user.setEmail("create-workflow-approver-example@example.com");
+            user.setFirstName("example");
+            user.setLastName("example");
+            user = (User)client.accounts().create(user).getAccount();
 
-            // Create a workflow role
-            var workflowRole = new WorkflowRole();
-            workflowRole.setWorkflowId(workflow.getId());
-            workflowRole.setRoleId(role.getId());
-            workflowRole = client.workflowRoles().create(workflowRole).getWorkflowRole();
-            
-            System.out.println("Successfully created workflow role.");
-            System.out.printf("\tWorkflow ID: %s\n", workflowRole.getWorkflowId());
-            System.out.printf("\tRole ID: %s\n", workflowRole.getRoleId());
+            // Create a workflow approver
+            var workflowApprover = new WorkflowApprover();
+            workflowApprover.setWorkflowId(workflow.getId());
+            workflowApprover.setAccountId(user.getId());
+            workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
+
+            System.out.println("Successfully created workflow approver.");
+            System.out.printf("\tWorkflow ID: %s\n", workflowApprover.getWorkflowId());
+            System.out.printf("\tAccount ID: %s\n", workflowApprover.getAccountId());
         } catch (Exception e) {
             e.printStackTrace();
         }
