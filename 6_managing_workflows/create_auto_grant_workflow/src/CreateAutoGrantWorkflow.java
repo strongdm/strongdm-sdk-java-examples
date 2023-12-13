@@ -40,7 +40,7 @@ public class CreateAutoGrantWorkflow {
 
             // Create a Workflow
             var workflow = new Workflow();
-            workflow.setName("Example Create Auto Grant Worfklow");
+            workflow.setName("Example Create Auto Grant Workflow");
             workflow.setDescription("Example Workflow Description");
             workflow.setAutoGrant(true);
             workflow.setEnabled(true);

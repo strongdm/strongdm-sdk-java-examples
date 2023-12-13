@@ -60,7 +60,7 @@ public class ListingWorkflowAssignments {
             rule1.setType("mysql");
             rule1.setTags(tags); 
             var workflow = new Workflow();
-            workflow.setName("Example Create Manual Grant Worfklow");
+            workflow.setName("Example Create Manual Grant Workflow");
             workflow.setDescription("Example Workflow Description");
             workflow.setAccessRules(java.util.List.of(rule1));
             workflow = client.workflows().create(workflow).getWorkflow();

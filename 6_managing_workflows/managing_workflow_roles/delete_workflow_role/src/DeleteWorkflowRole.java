@@ -40,14 +40,14 @@ public class DeleteWorkflowRole {
 
             // Create a Workflow
             var workflow = new Workflow();
-            workflow.setName("Example Create Worfklow Approver");
+            workflow.setName("Example Delete Workflow Role");
             workflow.setDescription("Example Workflow Description");
             workflow.setAccessRules(java.util.List.of(accessRule));
             workflow = client.workflows().create(workflow).getWorkflow();
 
             // Create a Role
             var role = new Role();
-            role.setName("Example Role for Auto Grant Workflow");
+            role.setName("Example Role for Deleting Workflow Role");
             role = client.roles().create(role).getRole();
 
             // Create a workflow role

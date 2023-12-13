@@ -41,7 +41,7 @@ public class CreateAutoGrantWorkflow {
 
             // Create a Workflow
             Workflow workflow = new Workflow();
-            workflow.setName("Example Create Auto Grant Worfklow Full");
+            workflow.setName("Example Create Auto Grant Workflow Full");
             workflow.setDescription("Example Workflow Description");
             workflow.setAutoGrant(true);
             workflow.setEnabled(true);

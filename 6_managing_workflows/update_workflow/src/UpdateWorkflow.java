@@ -36,7 +36,7 @@ public class UpdateWorkflow {
 
             // Define a Workflow
             var create = new Workflow();
-            create.setName("Example Update Worfklow");
+            create.setName("Example Update Workflow");
             create.setDescription("Example Workflow Description");
 
             // Create the Workflow

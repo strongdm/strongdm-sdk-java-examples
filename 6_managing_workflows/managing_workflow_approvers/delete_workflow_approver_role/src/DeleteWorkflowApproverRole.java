@@ -1,4 +1,3 @@
-
 // Copyright 2023 StrongDM Inc
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +15,7 @@
 
 import com.strongdm.api.*;
 
-public class DeleteWorkflowApprover {
+public class DeleteWorkflowApproverRole {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -41,22 +40,20 @@ public class DeleteWorkflowApprover {
 
             // Create a Workflow
             var workflow = new Workflow();
-            workflow.setName("Example Delete Worfklow Approver");
+            workflow.setName("Example Delete Workflow Approver");
             workflow.setDescription("Example Workflow Description");
             workflow.setAccessRules(java.util.List.of(accessRule));
             workflow = client.workflows().create(workflow).getWorkflow();
 
-	        // Create an approver - used for creating a workflow approver
-            var user = new User();
-            user.setEmail("delete-workflow-approver-example@example.com");
-            user.setFirstName("example");
-            user.setLastName("example");
-            user = (User)client.accounts().create(user).getAccount();
+	        // Create an approver role - used for creating a workflow approver
+            var role = new Role();
+            role.setName("Example Role for Deleting Workflow Approver");
+            role = client.roles().create(role).getRole();
 
             // Create a workflow approver
             var workflowApprover = new WorkflowApprover();
             workflowApprover.setWorkflowId(workflow.getId());
-            workflowApprover.setApproverId(user.getId());
+            workflowApprover.setRoleId(role.getId());
             workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
 
             // Delete a Workflow Approver
