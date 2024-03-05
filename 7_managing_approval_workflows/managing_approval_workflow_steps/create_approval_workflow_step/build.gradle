@@ -1,0 +1,15 @@
+apply plugin : "application"
+
+mainClassName = "CreateApprovalWorkflowStep"
+
+sourceSets.main.java.srcDirs = ['src']
+
+group = 'io.github.strongdm'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.github.strongdm:strongdm-sdk-java:6.9.0"
+}
