@@ -1,4 +1,4 @@
-// Copyright 2023 StrongDM Inc
+// Copyright 2024 StrongDM Inc
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 
 import com.strongdm.api.*;
 
-public class DeleteWorkflowApproverRole {
+public class DeleteApprovalWorkflowStep {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -27,41 +27,33 @@ public class DeleteWorkflowApproverRole {
             System.out.println("SDM_API_ACCESS_KEY and SDM_API_SECRET_KEY must be provided");
             return;
         }
+        
 
         try {
             // Create the SDM Client
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
-            // Create an access rule for the workflow
-            var accessRule = new AccessRule();
-            accessRule.setTags(java.util.Map.of("env", "example"));
+            // Create an approval workflow
+            var approvalWorkflow = new ApprovalWorkflow();
+            approvalWorkflow.setName("Example Approval Workflow");
+            approvalWorkflow.setApprovalMode("manual");
+            ApprovalWorkflowCreateResponse createResp = client.approvalWorkflows().create(approvalWorkflow);
+            approvalWorkflow = createResp.getApprovalWorkflow();
 
+            // Create an approval workflow step
+            ApprovalWorkflowStep step = new ApprovalWorkflowStep();
+            step.setApprovalFlowId(approvalWorkflow.getId());
+            ApprovalWorkflowStepCreateResponse stepCreateResp = client.approvalWorkflowSteps().create(step);
+            step = stepCreateResp.getApprovalWorkflowStep();
 
-            // Create a Workflow
-            var workflow = new Workflow();
-            workflow.setName("Example Delete Workflow Approver");
-            workflow.setDescription("Example Workflow Description");
-            workflow.setAccessRules(java.util.List.of(accessRule));
-            workflow = client.workflows().create(workflow).getWorkflow();
+            // Delete an approval workflow step
+            client.approvalWorkflowSteps().delete(step.getId());
 
-	        // Create an approver role - used for creating a workflow approver
-            var role = new Role();
-            role.setName("Example Role for Deleting Workflow Approver");
-            role = client.roles().create(role).getRole();
-
-            // Create a workflow approver
-            var workflowApprover = new WorkflowApprover();
-            workflowApprover.setWorkflowId(workflow.getId());
-            workflowApprover.setRoleId(role.getId());
-            workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
-
-            // Delete a Workflow Approver
-            client.workflowApprovers().delete(workflowApprover.getId());
-            
-            System.out.println("Successfully deleted workflow approver.");
+            System.out.println("Successfully deleted approval workflow step.");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
     }
 }

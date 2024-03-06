@@ -1,4 +1,4 @@
-// Copyright 2023 StrongDM Inc
+// Copyright 2024 StrongDM Inc
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 
 import com.strongdm.api.*;
 
-public class CreateWorkflowApproverRole {
+public class CreateApprovalWorkflow {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -34,32 +34,16 @@ public class CreateWorkflowApproverRole {
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
-            // Create an access rule for the workflow
-            var accessRule = new AccessRule();
-            accessRule.setTags(java.util.Map.of("env", "example"));
-
-
-            // Create a Workflow
-            var workflow = new Workflow();
-            workflow.setName("Example Create Workflow Approver");
-            workflow.setDescription("Example Workflow Description");
-            workflow.setAccessRules(java.util.List.of(accessRule));
-            workflow = client.workflows().create(workflow).getWorkflow();
-
-	        // Create an approver role - used for creating a workflow approver
-            var role = new Role();
-            role.setName("Example Role for Creating Workflow Approver");
-            role = client.roles().create(role).getRole();
-
-            // Create a workflow approver
-            var workflowApprover = new WorkflowApprover();
-            workflowApprover.setWorkflowId(workflow.getId());
-            workflowApprover.setRoleId(role.getId());
-            workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
-
-            System.out.println("Successfully created workflow approver.");
-            System.out.printf("\tWorkflow ID: %s\n", workflowApprover.getWorkflowId());
-            System.out.printf("\tRole ID: %s\n", workflowApprover.getRoleId());
+            // Create an approval workflow
+            var approvalWorkflow = new ApprovalWorkflow();
+            approvalWorkflow.setName("Example Create Approval Workflow");
+            approvalWorkflow.setApprovalMode("automatic");
+            ApprovalWorkflowCreateResponse createResp = client.approvalWorkflows().create(approvalWorkflow);
+            approvalWorkflow = createResp.getApprovalWorkflow();
+            
+            System.out.println("Successfully created approval workflow.");
+            System.out.printf("\tID: %s\n", approvalWorkflow.getId());
+            System.out.printf("\tName: %s\n", approvalWorkflow.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "DeleteWorkflowApproverRole"
+mainClassName = "DeleteApprovalWorkflow"
 
 sourceSets.main.java.srcDirs = ['src']
 
@@ -11,5 +11,5 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.strongdm:strongdm-sdk-java:6.0.0"
+    implementation "io.github.strongdm:strongdm-sdk-java:6.9.0"
 }
