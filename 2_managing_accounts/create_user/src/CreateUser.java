@@ -15,7 +15,10 @@
 //
 import java.util.concurrent.TimeUnit;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.Client;
+import com.strongdm.api.ClientOptions;
+import com.strongdm.api.PermissionLevel;
+import com.strongdm.api.User;
 
 public class CreateUser {
     public static void main(String[] args) {
@@ -37,9 +40,10 @@ public class CreateUser {
 
             // Define a User
             var user = new User();
-            user.setEmail("example@example.com");
+            user.setEmail("java-create-user-example@example.com");
             user.setFirstName("example");
             user.setLastName("example");
+            user.setPermissionLevel(PermissionLevel.TEAM_LEADER);
             
             // Create the User
             var response = client.accounts().create(user);

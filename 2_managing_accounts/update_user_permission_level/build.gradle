@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "SuspendAccount"
+mainClassName = "UpdateUserPermissionLevel"
 
 sourceSets.main.java.srcDirs = ['src']
 

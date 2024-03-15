@@ -20,7 +20,7 @@ import com.strongdm.api.ClientOptions;
 import com.strongdm.api.PermissionLevel;
 import com.strongdm.api.User;
 
-public class SuspendAccount {
+public class UpdateUserPermissionLevel {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -40,9 +40,10 @@ public class SuspendAccount {
 
             // Define a User
             var create = new User();
-            create.setEmail("java-suspend-account-example@example.com");
+            create.setEmail("java-update-permissions-example@example.com");
             create.setFirstName("example");
             create.setLastName("example");
+            create.setPermissionLevel(PermissionLevel.TEAM_LEADER);
             
             // Create the User
             var response = client.accounts().create(create);
@@ -50,20 +51,21 @@ public class SuspendAccount {
             System.out.println("Successfully created user.");
             System.out.printf("\tID: %s\n", user.getId());
             System.out.printf("\tEmail: %s\n", user.getEmail());
+            System.out.printf("\tPermission Level: %s\n", user.getPermissionLevel());
 
             // Get the account
             var getResponse = client.accounts().get(user.getId());
 
             // Set fields
             user = (User)getResponse.getAccount();
-            user.setPermissionLevel(PermissionLevel.SUSPENDED);
+            user.setPermissionLevel(PermissionLevel.DATABASE_ADMIN);
 
             // Update the account
             var updateResponse = client.accounts().update(user);
             user = (User)updateResponse.getAccount();
-            System.out.println("Successfully suspended account.");
+            System.out.println("Successfully updated permission level.");
             System.out.printf("\tID: %s\n", user.getId());
-            System.out.printf("\tSuspended: %b\n", user.getSuspended());
+            System.out.printf("\tPermission Level: %s\n", user.getPermissionLevel());
         } catch (Exception e) {
             e.printStackTrace();
         }
