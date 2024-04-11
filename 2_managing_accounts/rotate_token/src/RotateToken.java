@@ -13,11 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.time.Duration;
 
+import com.strongdm.api.Account;
 import com.strongdm.api.Client;
 import com.strongdm.api.ClientOptions;
+import com.strongdm.api.Permission;
 import com.strongdm.api.Token;
 
 public class RotateToken {
@@ -40,9 +43,11 @@ public class RotateToken {
 
             // Define a Token
             var token = new Token();
-            token.setName("example-token-name");
+            token.setName("java-test-rotate-token");
             token.setDuration(Duration.ofHours(1));
-            token.setPermissions(new List<String>("role:list"));
+            ArrayList<String> permissions = new ArrayList<String>();
+            permissions.add(Permission.ROLE_LIST);
+            token.setPermissions(permissions);
             token.setAccountType("api");
             
             // Create the Token
@@ -56,7 +61,7 @@ public class RotateToken {
 
             // Find the Token by Name
             var listResponse = client.accounts().list("name:" + tokenResponse.getName());
-            List<Account> accountsList = new List<>();
+            ArrayList<Account> accountsList = new ArrayList<>();
             for (Account account : listResponse) { 
                 accountsList.add(account);
             }
@@ -82,7 +87,11 @@ public class RotateToken {
             tok.setId(null);
             var createResponse = client.accounts().create(tok);
             var newToken = (Token)createResponse.getAccount();
+
             System.out.println("Successfully created new token.");
+            System.out.printf("\tID: %s\n", newToken.getId());
+            System.out.printf("\tAccess Key: %s\n", createResponse.getAccessKey());
+            System.out.printf("\tSecret Key: %s\n", createResponse.getSecretKey());
 
             // Delete the old token
             client.accounts().delete(updatedOldToken.getId());
