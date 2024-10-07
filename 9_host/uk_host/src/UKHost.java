@@ -13,6 +13,8 @@
 // limitations under the License.
 //
 
+import java.util.concurrent.TimeUnit;
+
 import com.strongdm.api.*;
 
 public class UKHost {
@@ -28,23 +30,33 @@ public class UKHost {
             return;
         }
         
-
         try {
             // Create the client with the UK host.
+            // APIHost.UK is a string constant that represents the host and port.
             String[] hostAndPort = APIHost.UK.split(":");
             var opts = new ClientOptions();
-            opts.withHostAndPort(hostAndPort[0], Integer.parseInt(hostAndPort[1]));
+            opts = opts.withHostAndPort(hostAndPort[0], Integer.parseInt(hostAndPort[1]));
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
-            // Create an approval workflow for example
-            var approvalWorkflow = new ApprovalWorkflow();
-            approvalWorkflow.setName("Example Create Approval Workflow");
-            approvalWorkflow.setApprovalMode("automatic");
-            ApprovalWorkflowCreateResponse createResp = client.approvalWorkflows().create(approvalWorkflow);
-            approvalWorkflow = createResp.getApprovalWorkflow();
+            // Define a Postgres Datasource
+            var postgres = new Postgres();
+            postgres.setName("Example Postgres Datasource");
+            postgres.setHostname("example.strongdm.com");
+            postgres.setPort(5432);
+            postgres.setUsername("example");
+            postgres.setPassword("example");
+            postgres.setDatabase("example");
+            postgres.setPortOverride(19999);
+            postgres.setTags(java.util.Map.of(
+            "env", "example"));
             
-            System.out.println("Successfully created approval workflow.");
-            System.out.printf("\tID: %s\n", approvalWorkflow.getId());
+            // Create the Datasource for example
+            var response = client.resources()
+                .withDeadlineAfter(30, TimeUnit.SECONDS)
+                .create(postgres);
+
+            System.out.println("Successfully created Postgres datasource.");
+            System.out.printf("\tID: %s\n", response.getResource().getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
