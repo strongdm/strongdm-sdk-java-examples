@@ -31,6 +31,7 @@ public class USHost {
 
         try {
             // Create the client with the US host.
+            // APIHost.US is a string constant that represents the host and port.
             String[] hostAndPort = APIHost.US.split(":");
             var opts = new ClientOptions();
             opts.withHostAndPort(hostAndPort[0], Integer.parseInt(hostAndPort[1]));
