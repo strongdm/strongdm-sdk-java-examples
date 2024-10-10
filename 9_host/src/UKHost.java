@@ -32,7 +32,7 @@ public class UKHost {
         
         try {
             // Configure a client to communicate with the UK host.
-            // If the WithHost option is not provided it will default to the US control plane (api.strongdm.com:443)
+            // If the withHostAndPort option is not provided, it will default to the US control plane (api.strongdm.com:443)
             String[] hostAndPort = APIHost.UK.split(":");
             var opts = new ClientOptions();
             opts = opts.withHostAndPort(hostAndPort[0], Integer.parseInt(hostAndPort[1]));
