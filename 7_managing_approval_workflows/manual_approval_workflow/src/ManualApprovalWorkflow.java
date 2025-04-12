@@ -15,9 +15,6 @@
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import javax.management.relation.Role;
 
 import com.strongdm.api.*;
 
@@ -34,7 +31,6 @@ public class ManualApprovalWorkflow {
             return;
         }
         
-
         try {
             // Create the SDM Client
             var opts = new ClientOptions();
@@ -64,8 +60,8 @@ public class ManualApprovalWorkflow {
             var approver2 = new ApprovalFlowApprover();
             approver2.setRoleId(role.getId());
             List<ApprovalFlowApprover> step1Approvers = new ArrayList<>();
-            approvers.add(apr1);
-            approvers.add(apr2);
+            approvers.add(approver1);
+            approvers.add(approver2);
             // Add Approval step to configuration
             var step1 = new ApprovalFlowStep();
             step1.setQuantifier("any");
@@ -81,7 +77,6 @@ public class ManualApprovalWorkflow {
             // Add Approval step to configuration
             var step2 = new ApprovalFlowStep();
             step2.setQuantifier("any");
-            step2.setSkipAfter(Duration.ofHours(1));
             step2.setApprovers(step2Approvers);
             approvalWorkflowSteps.add(step2);
 
@@ -101,6 +96,16 @@ public class ManualApprovalWorkflow {
             System.out.printf("\tApproval Mode: %s\n", approvalWorkflow.getApprovalMode());
             System.out.printf("\tNumber of Approval Steps: %s\n", approvalWorkflow.getApprovalWorkflowSteps().size());
 
+            // Get Approval Workflow
+            var getResp = client.approvalWorkflows().get(approvalWorkflow.getId());
+            var gotApprovalWorkflow = getResp.getApprovalWorkflow();
+            System.out.println("Successfully got approval workflow name.");
+            System.out.printf("\tID: %s\n", gotApprovalWorkflow.getId());
+            System.out.printf("\tName: %s\n", gotApprovalWorkflow.getName());
+            System.out.printf("\tDescription: %s\n", gotApprovalWorkflow.getDescription());
+            System.out.printf("\tApproval Mode: %s\n", gotApprovalWorkflow.getApprovalMode());
+            System.out.printf("\tNumber of Approval Steps: %s\n", gotApprovalWorkflow.getApprovalWorkflowSteps().size());
+
             // Update the approval workflow
             // Configure approval workflow steps
             List<ApprovalFlowStep> updatedApprovalSteps = new ArrayList<>();
@@ -110,13 +115,13 @@ public class ManualApprovalWorkflow {
             updatedApprover1.setAccountId(user.getId());
             List<ApprovalFlowApprover> updatedStep1Approvers = new ArrayList<>();
             updatedStep1Approvers.add(updatedApprover1);
-            // Add Approval step to configuration
+            // Add approval step to configuration
             var updatedStep1 = new ApprovalFlowStep();
             updatedStep1.setQuantifier("all");
             updatedStep1.setApprovers(updatedStep1Approvers);
             updatedApprovalSteps.add(updatedStep1);
 
-            // Add Approval step to configuration
+            // Add approval step to configuration
             var updatedApprover2 = new ApprovalFlowApprover();
             updatedApprover2.setRoleId(role.getId());
             List<ApprovalFlowApprover> updatedStep2Approvers = new ArrayList<>();
@@ -127,7 +132,7 @@ public class ManualApprovalWorkflow {
             updatedStep2.setApprovers(updatedStep2Approvers);
             updatedApprovalSteps.add(updatedStep2);
 
-            // Add Approval step to configuration
+            // Add approval step to configuration
             var updatedApprover3 = new ApprovalFlowApprover();
             updatedApprover3.setRoleId(role2.getId());
             List<ApprovalFlowApprover> updatedStep3Approvers = new ArrayList<>();
@@ -144,27 +149,28 @@ public class ManualApprovalWorkflow {
             updatedApprovalWorkflowConfig.setDescription("example new  approval workflow description");
             updatedApprovalWorkflowConfig.setApprovalMode("manual");
             updatedApprovalWorkflowConfig.setApprovalWorkflowSteps(updatedApprovalSteps);
+
             var updatedApprovalFlow = client.approvalWorkflows().update(updatedApprovalWorkflowConfig).getApprovalWorkflow();
             
-            System.out.println("Successfully updated approval workflow name.");
+            System.out.println("Successfully updated approval workflow.");
             System.out.printf("\tID: %s\n", updatedApprovalFlow.getId());
             System.out.printf("\tName: %s\n", updatedApprovalFlow.getName());
             System.out.printf("\tDescription: %s\n", updatedApprovalFlow.getDescription());
             System.out.printf("\tApproval Mode: %s\n", updatedApprovalFlow.getApprovalMode());
             System.out.printf("\tNumber of Approval Steps: %s\n", updatedApprovalFlow.getApprovalWorkflowSteps().size());
 
-            // Get Approval Workflow
-            var getResp = client.approvalWorkflows().get(updatedApprovalFlow.getId());
-            var gotApprovalWorkflow = getResp.getApprovalWorkflow();
-            System.out.println("Successfully got approval workflow name.");
-            System.out.printf("\tID: %s\n", gotApprovalWorkflow.getId());
-            System.out.printf("\tName: %s\n", gotApprovalWorkflow.getName());
-            System.out.printf("\tDescription: %s\n", gotApprovalWorkflow.getDescription());
-            System.out.printf("\tApproval Mode: %s\n", gotApprovalWorkflow.getApprovalMode());
-            System.out.printf("\tNumber of Approval Steps: %s\n", gotApprovalWorkflow.getApprovalWorkflowSteps().size());
+            // Update manual approval workflow to autogrant
+            updatedApprovalWorkflowConfig.setApprovalMode("autogrant");
+            updatedApprovalWorkflowConfig.setApprovalWorkflowSteps(null);
+            updatedApprovalFlow = client.approvalWorkflows().update(updatedApprovalWorkflowConfig).getApprovalWorkflow();
+            System.out.println("Successfully updated approval workflow from manual to autogrant.");
+            System.out.printf("\tID: %s\n", updatedApprovalFlow.getId());
+            System.out.printf("\tName: %s\n", updatedApprovalFlow.getName());
+            System.out.printf("\tDescription: %s\n", updatedApprovalFlow.getDescription());
+            System.out.printf("\tApproval Mode: %s\n", updatedApprovalFlow.getApprovalMode());
 
             // Delete Approval Workflow
-            client.approvalWorkflows().delete(gotApprovalWorkflow.getId());
+            client.approvalWorkflows().delete(updatedApprovalFlow.getId());
             System.out.println("Successfully deleted approval workflow.");
         } catch (Exception e) {
             e.printStackTrace();

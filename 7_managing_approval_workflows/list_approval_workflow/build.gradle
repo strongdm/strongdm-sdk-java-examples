@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "AutograntApprovalWorkflow"
+mainClassName = "ListApprovalWorkflow"
 
 sourceSets.main.java.srcDirs = ['src']
 
