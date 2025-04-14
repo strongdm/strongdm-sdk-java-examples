@@ -36,7 +36,7 @@ public class AutograntApprovalWorkflow {
 
             // Create an approval workflow
             var approvalWorkflow = new ApprovalWorkflow();
-            approvalWorkflow.setName("Example Update Approval Workflow");
+            approvalWorkflow.setName("Example Autogrant Approval Workflow");
             approvalWorkflow.setApprovalMode("automatic");
             ApprovalWorkflowCreateResponse createResp = client.approvalWorkflows().create(approvalWorkflow);
             approvalWorkflow = createResp.getApprovalWorkflow();
@@ -57,7 +57,7 @@ public class AutograntApprovalWorkflow {
             approvalWorkflow.setDescription("Example New Description");
             approvalWorkflow = client.approvalWorkflows().update(approvalWorkflow).getApprovalWorkflow();
             
-            System.out.println("Successfully updated approval workflow name.");
+            System.out.println("Successfully updated approval workflow description.");
             System.out.printf("\tID: %s\n", approvalWorkflow.getId());
             System.out.printf("\tDescription: %s\n", approvalWorkflow.getDescription());
 

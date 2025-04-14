@@ -30,7 +30,6 @@ public class ManualApprovalWorkflow {
             System.out.println("SDM_API_ACCESS_KEY and SDM_API_SECRET_KEY must be provided");
             return;
         }
-        
         try {
             // Create the SDM Client
             var opts = new ClientOptions();
@@ -45,10 +44,10 @@ public class ManualApprovalWorkflow {
             
             // Create an approver role - used for creating an approval workflow approver
             var role = new Role();
-            role.setName("Example Role for Approval Workflow Approver");
+            role.setName("Example Role1 for Approval Workflow Approver");
             role = client.roles().create(role).getRole();
             var role2 = new Role();
-            role2.setName("Example Role for Approval Workflow Approver");
+            role2.setName("Example Role2 for Approval Workflow Approver");
             role2 = client.roles().create(role2).getRole();
 
             // Configure approval workflow steps
@@ -60,8 +59,8 @@ public class ManualApprovalWorkflow {
             var approver2 = new ApprovalFlowApprover();
             approver2.setRoleId(role.getId());
             List<ApprovalFlowApprover> step1Approvers = new ArrayList<>();
-            approvers.add(approver1);
-            approvers.add(approver2);
+            step1Approvers.add(approver1);
+            step1Approvers.add(approver2);
             // Add Approval step to configuration
             var step1 = new ApprovalFlowStep();
             step1.setQuantifier("any");
@@ -73,7 +72,7 @@ public class ManualApprovalWorkflow {
             var approver3 = new ApprovalFlowApprover();
             approver3.setAccountId(user.getId());
             List<ApprovalFlowApprover> step2Approvers = new ArrayList<>();
-            approvers.add(approver3);
+            step2Approvers.add(approver3);
             // Add Approval step to configuration
             var step2 = new ApprovalFlowStep();
             step2.setQuantifier("any");
@@ -85,10 +84,10 @@ public class ManualApprovalWorkflow {
             approvalWorkflow.setName("example manual approval flow");
             approvalWorkflow.setApprovalMode("manual");
             approvalWorkflow.setDescription("sample approval workflow");
-            approvalWorkflow.setApprovalWorkflowSteps(wfs);
+            approvalWorkflow.setApprovalWorkflowSteps(approvalWorkflowSteps);
             var createResp = client.approvalWorkflows().create(approvalWorkflow);
             approvalWorkflow = createResp.getApprovalWorkflow();
-            
+
             System.out.println("Successfully created approval workflow.");
             System.out.printf("\tID: %s\n", approvalWorkflow.getId());
             System.out.printf("\tName: %s\n", approvalWorkflow.getName());
@@ -104,7 +103,8 @@ public class ManualApprovalWorkflow {
             System.out.printf("\tName: %s\n", gotApprovalWorkflow.getName());
             System.out.printf("\tDescription: %s\n", gotApprovalWorkflow.getDescription());
             System.out.printf("\tApproval Mode: %s\n", gotApprovalWorkflow.getApprovalMode());
-            System.out.printf("\tNumber of Approval Steps: %s\n", gotApprovalWorkflow.getApprovalWorkflowSteps().size());
+            System.out.printf("\tNumber of Approval Steps: %s\n",
+                    gotApprovalWorkflow.getApprovalWorkflowSteps().size());
 
             // Update the approval workflow
             // Configure approval workflow steps
@@ -150,19 +150,22 @@ public class ManualApprovalWorkflow {
             updatedApprovalWorkflowConfig.setApprovalMode("manual");
             updatedApprovalWorkflowConfig.setApprovalWorkflowSteps(updatedApprovalSteps);
 
-            var updatedApprovalFlow = client.approvalWorkflows().update(updatedApprovalWorkflowConfig).getApprovalWorkflow();
-            
+            var updatedApprovalFlow = client.approvalWorkflows().update(updatedApprovalWorkflowConfig)
+                    .getApprovalWorkflow();
+
             System.out.println("Successfully updated approval workflow.");
             System.out.printf("\tID: %s\n", updatedApprovalFlow.getId());
             System.out.printf("\tName: %s\n", updatedApprovalFlow.getName());
             System.out.printf("\tDescription: %s\n", updatedApprovalFlow.getDescription());
             System.out.printf("\tApproval Mode: %s\n", updatedApprovalFlow.getApprovalMode());
-            System.out.printf("\tNumber of Approval Steps: %s\n", updatedApprovalFlow.getApprovalWorkflowSteps().size());
+            System.out.printf("\tNumber of Approval Steps: %s\n",
+                    updatedApprovalFlow.getApprovalWorkflowSteps().size());
 
             // Update manual approval workflow to autogrant
-            updatedApprovalWorkflowConfig.setApprovalMode("autogrant");
+            updatedApprovalWorkflowConfig.setApprovalMode("automatic");
             updatedApprovalWorkflowConfig.setApprovalWorkflowSteps(null);
-            updatedApprovalFlow = client.approvalWorkflows().update(updatedApprovalWorkflowConfig).getApprovalWorkflow();
+            updatedApprovalFlow = client.approvalWorkflows().update(updatedApprovalWorkflowConfig)
+                    .getApprovalWorkflow();
             System.out.println("Successfully updated approval workflow from manual to autogrant.");
             System.out.printf("\tID: %s\n", updatedApprovalFlow.getId());
             System.out.printf("\tName: %s\n", updatedApprovalFlow.getName());

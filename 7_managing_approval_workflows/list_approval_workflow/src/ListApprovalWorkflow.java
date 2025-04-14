@@ -55,7 +55,7 @@ public class ListApprovalWorkflow {
             var approver1 = new ApprovalFlowApprover();
             approver1.setAccountId(user.getId());
             List<ApprovalFlowApprover> step1Approvers = new ArrayList<>();
-            approvers.add(approver1);
+            step1Approvers.add(approver1);
             // Add Approval step to configuration
             var step1 = new ApprovalFlowStep();
             step1.setQuantifier("any");
@@ -67,7 +67,7 @@ public class ListApprovalWorkflow {
             var approver2 = new ApprovalFlowApprover();
             approver2.setRoleId(role.getId());
             List<ApprovalFlowApprover> step2Approvers = new ArrayList<>();
-            approvers.add(approver2);
+            step2Approvers.add(approver2);
             // Add Approval step to configuration
             var step2 = new ApprovalFlowStep();
             step2.setQuantifier("any");
@@ -79,7 +79,7 @@ public class ListApprovalWorkflow {
             approvalWorkflow.setName("List example manual approval flow");
             approvalWorkflow.setApprovalMode("manual");
             approvalWorkflow.setDescription("sample approval workflow");
-            approvalWorkflow.setApprovalWorkflowSteps(wfs);
+            approvalWorkflow.setApprovalWorkflowSteps(approvalWorkflowSteps);
             var createResp = client.approvalWorkflows().create(approvalWorkflow);
             approvalWorkflow = createResp.getApprovalWorkflow();
             
@@ -92,13 +92,13 @@ public class ListApprovalWorkflow {
             
             // Configure and create an autogrant approval workflow
             var autograntFlow = new ApprovalWorkflow();
-            autograntFlow.setName("Example Update Approval Workflow");
+            autograntFlow.setName("List example autogrant Approval Workflow");
             autograntFlow.setApprovalMode("automatic");
             ApprovalWorkflowCreateResponse autograntCreateResp = client.approvalWorkflows().create(approvalWorkflow);
             autograntFlow = autograntCreateResp.getApprovalWorkflow();
             
             // List approval workflows by approval workflow name
-            Iterable<ApprovalWorkflow> resp = client.approvalWorkflows().list("name?", "List*");
+            Iterable<ApprovalWorkflow> resp = client.approvalWorkflows().list("name:?", "List*");
             List<ApprovalWorkflow> gotFlows = new ArrayList<>();
             for (ApprovalWorkflow n : resp) {
                 ApprovalWorkflow w = n;
@@ -107,7 +107,7 @@ public class ListApprovalWorkflow {
             System.out.printf("Successfully got %s approval workflows filtering by name\n", gotFlows.size());
             
             // List approval workflows by approval workflow id
-            Iterable<ApprovalWorkflow> listByIdResp = client.approvalWorkflows().list("id?", approvalWorkflow.getId())
+            Iterable<ApprovalWorkflow> listByIdResp = client.approvalWorkflows().list("id:?", approvalWorkflow.getId());
             List<ApprovalWorkflow> gotFlowsById = new ArrayList<>();
             for (ApprovalWorkflow n : listByIdResp) {
                 ApprovalWorkflow w = n;
