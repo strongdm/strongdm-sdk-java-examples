@@ -1,0 +1,16 @@
+apply plugin : "application"
+
+mainClassName = "SSHReplay"
+
+sourceSets.main.java.srcDirs = ['src']
+
+group = 'io.github.strongdm'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.github.strongdm:strongdm-sdk-java:3.7.0"
+    implementation "org.json:json:20190722"
+}
