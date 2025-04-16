@@ -1,4 +1,4 @@
-// Copyright 2024 StrongDM Inc
+// Copyright 2025 StrongDM Inc
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 
 import com.strongdm.api.*;
 
-public class UpdateApprovalWorkflow {
+public class AutograntApprovalWorkflow {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
@@ -36,7 +36,7 @@ public class UpdateApprovalWorkflow {
 
             // Create an approval workflow
             var approvalWorkflow = new ApprovalWorkflow();
-            approvalWorkflow.setName("Example Update Approval Workflow");
+            approvalWorkflow.setName("Example Autogrant Approval Workflow");
             approvalWorkflow.setApprovalMode("automatic");
             ApprovalWorkflowCreateResponse createResp = client.approvalWorkflows().create(approvalWorkflow);
             approvalWorkflow = createResp.getApprovalWorkflow();
@@ -57,7 +57,7 @@ public class UpdateApprovalWorkflow {
             approvalWorkflow.setDescription("Example New Description");
             approvalWorkflow = client.approvalWorkflows().update(approvalWorkflow).getApprovalWorkflow();
             
-            System.out.println("Successfully updated approval workflow name.");
+            System.out.println("Successfully updated approval workflow description.");
             System.out.printf("\tID: %s\n", approvalWorkflow.getId());
             System.out.printf("\tDescription: %s\n", approvalWorkflow.getDescription());
 
@@ -65,10 +65,13 @@ public class UpdateApprovalWorkflow {
             approvalWorkflow.setApprovalMode("manual");
             approvalWorkflow = client.approvalWorkflows().update(approvalWorkflow).getApprovalWorkflow();
             
-            System.out.println("Successfully updated approval workflow name.");
+            System.out.println("Successfully updated approval approval mode.");
             System.out.printf("\tID: %s\n", approvalWorkflow.getId());
             System.out.printf("\tApproval Mode: %s\n", approvalWorkflow.getApprovalMode());
 
+            // Delete the approval workflow
+            client.approvalWorkflows().delete(approvalWorkflow.getId());
+            System.out.println("Successfully deleted approval workflow.");
         } catch (Exception e) {
             e.printStackTrace();
         }
