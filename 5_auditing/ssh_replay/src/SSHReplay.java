@@ -16,7 +16,7 @@ import com.strongdm.api.*;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
-public class QueryReplay {
+public class SSHReplay {
     public static void main(String[] args) {
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,

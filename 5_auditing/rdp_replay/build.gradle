@@ -1,6 +1,6 @@
 apply plugin : "application"
 
-mainClassName = "QueryReplay"
+mainClassName = "RDPReplay"
 
 sourceSets.main.java.srcDirs = ['src']
 
