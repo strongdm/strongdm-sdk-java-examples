@@ -11,5 +11,5 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.strongdm:strongdm-sdk-java:14.2.0"
+    implementation "io.github.strongdm:strongdm-sdk-java:14.6.0"
 }
