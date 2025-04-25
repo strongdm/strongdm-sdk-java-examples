@@ -73,6 +73,8 @@ public class ListApprovalWorkflow {
             approver4.setReference(ApproverReference.MANAGER_OF_MANAGER_OF_REQUESTER);
             List<ApprovalFlowApprover> step2Approvers = new ArrayList<>();
             step2Approvers.add(approver2);
+            step2Approvers.add(approver3);
+            step2Approvers.add(approver4);
             // Add Approval step to configuration
             var step2 = new ApprovalFlowStep();
             step2.setQuantifier("any");
