@@ -15,6 +15,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Duration;
 
 import com.strongdm.api.*;
 
@@ -66,8 +67,14 @@ public class ListApprovalWorkflow {
             // Configure an approval workflow approver
             var approver2 = new ApprovalFlowApprover();
             approver2.setRoleId(role.getId());
+            var approver3 = new ApprovalFlowApprover();
+            approver3.setReference(ApproverReference.MANAGER_OF_REQUESTER);
+            var approver4 = new ApprovalFlowApprover();
+            approver4.setReference(ApproverReference.MANAGER_OF_MANAGER_OF_REQUESTER);
             List<ApprovalFlowApprover> step2Approvers = new ArrayList<>();
             step2Approvers.add(approver2);
+            step2Approvers.add(approver3);
+            step2Approvers.add(approver4);
             // Add Approval step to configuration
             var step2 = new ApprovalFlowStep();
             step2.setQuantifier("any");
