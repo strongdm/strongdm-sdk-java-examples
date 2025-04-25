@@ -12,4 +12,8 @@ repositories {
 
 dependencies {
     implementation "io.github.strongdm:strongdm-sdk-java:14.2.0"
+    implementation 'io.grpc:grpc-core:1.57.2'
+    implementation 'io.grpc:grpc-netty:1.57.2'
+    implementation 'io.grpc:grpc-protobuf:1.57.2'
+    implementation 'io.grpc:grpc-stub:1.57.2'
 }
