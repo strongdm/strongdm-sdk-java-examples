@@ -1,5 +1,5 @@
 
-// Copyright 2020 StrongDM Inc
+// Copyright 2025 StrongDM Inc
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import java.util.concurrent.TimeUnit;
 
 import com.strongdm.api.Client;
 import com.strongdm.api.ClientOptions;
@@ -79,11 +78,11 @@ public class AssignManagerToUsers {
             System.out.printf("\tID: %s%n", fetchedUser.getId());
             System.out.printf("\tManagerID: %s%n", fetchedUser.getManagerId());
             System.out.printf("\tResolvedManagerID: %s%n", fetchedUser.getResolvedManagerId());
-            System.out.printf("\tSCIM Metadata: %s%n", fetchedUser.getScim());
+            System.out.printf("\tSCIM Metadata: %s%n", fetchedUser.getSCIM());
 
             // Clear manager assignment and update user
             fetchedUser.setManagerId("");
-            AccountUpdateResponse updateResp = client.accounts().update(fetchedUser);
+            var updateResp = client.accounts().update(fetchedUser);
             User updatedUser = (User) updateResp.getAccount();
 
             System.out.println("Successfully updated user.");
