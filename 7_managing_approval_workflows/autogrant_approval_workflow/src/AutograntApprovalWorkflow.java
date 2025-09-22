@@ -65,7 +65,7 @@ public class AutograntApprovalWorkflow {
             approvalWorkflow.setApprovalMode("manual");
             approvalWorkflow = client.approvalWorkflows().update(approvalWorkflow).getApprovalWorkflow();
             
-            System.out.println("Successfully updated approval approval mode.");
+            System.out.println("Successfully updated approval workflow approval mode.");
             System.out.printf("\tID: %s\n", approvalWorkflow.getId());
             System.out.printf("\tApproval Mode: %s\n", approvalWorkflow.getApprovalMode());
 

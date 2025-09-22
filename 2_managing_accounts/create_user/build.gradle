@@ -1,6 +1,8 @@
 apply plugin : "application"
 
-mainClassName = "CreateUser"
+application {
+    mainClass = "CreateUser"
+}
 
 sourceSets.main.java.srcDirs = ['src']
 
