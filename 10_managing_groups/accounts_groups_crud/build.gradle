@@ -1,7 +1,7 @@
 apply plugin : "application"
 
 application {
-    mainClass = "AuditResource"
+    mainClass = "AccountsGroupsCrud"
 }
 
 sourceSets.main.java.srcDirs = ['src']
@@ -9,9 +9,10 @@ sourceSets.main.java.srcDirs = ['src']
 group = 'io.github.strongdm'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    implementation "io.github.strongdm:strongdm-sdk-java:15.0.0"
+    implementation "io.github.strongdm:strongdm-sdk-java:15.16.0"
 }
