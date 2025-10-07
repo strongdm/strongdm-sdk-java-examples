@@ -14,53 +14,62 @@
 //
 package samples;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class GrantRevokeAccess {
     public static void main(String[] args) throws Exception {
-    	// Create the SDM Client
-        Client client = new Client(
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:
         // https://www.strongdm.com/docs/api/api-keys/
-            System.getenv("SDM_API_ACCESS_KEY"),
-            System.getenv("SDM_API_SECRET_KEY")
-        );
+        var apiAccessKey = System.getenv("SDM_API_ACCESS_KEY");
+        var apiSecretKey = System.getenv("SDM_API_SECRET_KEY");
+        if (apiAccessKey == null || apiSecretKey == null) {
+            System.out.println("SDM_API_ACCESS_KEY and SDM_API_SECRET_KEY must be provided");
+            return;
+        }
 
-        // Define a resource (e.g., Redis)
-        Redis redis = new Redis();
-        redis.setName("accessRuleTest");
-        redis.setHostname("example.com");
-        redis.setPort(6379);
-        redis.setPortOverride(2001);
-        redis.setTags(java.util.Map.of(
-            "env", "staging"
-        ));
-        redis = (Redis)client.resources().create(redis).getResource();
+        try {
+            // Create the SDM Client
+            var opts = new ClientOptions();
+            var client = new Client(apiAccessKey, apiSecretKey);
 
-        // Create a Role with an initial Access Rule
-        Role role = new Role();
-        role.setName("accessRuleTest");
-        AccessRule rule1 = new AccessRule();
-        rule1.setIds(java.util.List.of(redis.getId()));
-        role.setAccessRules(java.util.List.of(rule1));
-        role = client.roles().create(role).getRole();
+            // Define a resource (e.g., Redis)
+            Redis redis = new Redis();
+            redis.setName("accessRuleTest");
+            redis.setHostname("example.com");
+            redis.setPort(6379);
+            redis.setPortOverride(2001);
+            redis.setTags(java.util.Map.of(
+                "env", "staging"
+            ));
+            redis = (Redis)client.resources().create(redis).getResource();
 
-        // Update the Role's Access Rules
-        AccessRule rule2 = new AccessRule();
-        rule2.setType("postgres");
-        AccessRule rule3 = new AccessRule();
-        rule3.setTags(java.util.Map.of(
-            "env", "staging"
-        ));
-        role.setAccessRules(java.util.List.of(rule2, rule3));
-        role = client.roles().update(role).getRole();
+            // Create a Role with an initial Access Rule
+            Role role = new Role();
+            role.setName("accessRuleTest");
+            AccessRule rule1 = new AccessRule();
+            rule1.setIds(java.util.List.of(redis.getId()));
+            role.setAccessRules(java.util.List.of(rule1));
+            role = client.roles().create(role).getRole();
 
-        // Revoke access:
+            // Update the Role's Access Rules
+            AccessRule rule2 = new AccessRule();
+            rule2.setType("postgres");
+            AccessRule rule3 = new AccessRule();
+            rule3.setTags(java.util.Map.of(
+                "env", "staging"
+            ));
+            role.setAccessRules(java.util.List.of(rule2, rule3));
+            role = client.roles().update(role).getRole();
 
-        role.setAccessRules(new java.util.ArrayList<AccessRule>());
-        role = client.roles().update(role).getRole();
+            // Revoke access:
+
+            role.setAccessRules(new java.util.ArrayList<AccessRule>());
+            role = client.roles().update(role).getRole();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

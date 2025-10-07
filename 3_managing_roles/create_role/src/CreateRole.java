@@ -14,23 +14,32 @@
 //
 package samples;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class CreateRole {
     public static void main(String[] args) throws Exception {
-    	// Create the SDM Client
-        Client client = new Client(
+
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:
         // https://www.strongdm.com/docs/api/api-keys/
-            System.getenv("SDM_API_ACCESS_KEY"),
-            System.getenv("SDM_API_SECRET_KEY")
-        );
+        var apiAccessKey = System.getenv("SDM_API_ACCESS_KEY");
+        var apiSecretKey = System.getenv("SDM_API_SECRET_KEY");
+        if (apiAccessKey == null || apiSecretKey == null) {
+            System.out.println("SDM_API_ACCESS_KEY and SDM_API_SECRET_KEY must be provided");
+            return;
+        }
+        try {
+            // Create the SDM Client
+            var opts = new ClientOptions();
+            var client = new Client(apiAccessKey, apiSecretKey);
 
-        // Create a Role
-        Role role = new Role();
-        role.setName("accessRuleTest");
-        role = client.roles().create(role).getRole();
+            // Create a Role
+            Role role = new Role();
+            role.setName("accessRuleTest");
+            role = client.roles().create(role).getRole();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

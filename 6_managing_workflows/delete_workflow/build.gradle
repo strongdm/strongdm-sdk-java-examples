@@ -1,6 +1,8 @@
 apply plugin : "application"
 
-mainClassName = "DeleteWorkflow"
+application {
+    mainClass = "DeleteWorkflow"
+}
 
 sourceSets.main.java.srcDirs = ['src']
 
@@ -11,5 +13,5 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.strongdm:strongdm-sdk-java:15.0.0"
+    implementation "io.github.strongdm:strongdm-sdk-java:15.20.0"
 }
