@@ -64,14 +64,37 @@ public class UpdateResource {
             // Update the fields to change
             updatedPostgresDatasource.setName("Example Name Updated");
 
+            // If your organization has Virtual Networking Mode enabled,
+            // you can automatically allocate an IP to that resource via the 
+            // ResourceIPAllocationMode.VNM constant...
+            updatedPostgresDatasource.setBindInterface(ResourceIPAllocationMode.VNM);
+
+            // ...Or fallback to whatever the default behavior is for your organization...
+            updatedPostgresDatasource.setBindInterface(ResourceIPAllocationMode.DEFAULT);
+
+            // ...Or if there is a specific IP to bind to, you can specify it directly.
+            // For more details on Virtual Networking Mode see documentation here:
+            // https://docs.strongdm.com/admin/clients/client-networking/virtual-networking-mode
+            updatedPostgresDatasource.setBindInterface("127.0.0.1");
+
+            var postgresResource = (Postgres)updatedPostgresDatasource;
+            // Update `PortOverride` to `-1` to auto-allocate a different available port.
+            postgresResource.setPortOverride(-1);
+
             // Update the Datasource
             var updateResponse = client.resources()
                 .withDeadlineAfter(30, TimeUnit.SECONDS)
                 .update(updatedPostgresDatasource);
 
+            var updatedResource = updateResponse.getResource();
+            var newPortOverride = ((Postgres)updatedResource).getPortOverride();
+
             System.out.println("Successfully updated Postgres datasource.");
-            System.out.printf("\tID: %s\n", updateResponse.getResource().getId());
-            System.out.printf("\tName: %s\n", updateResponse.getResource().getName());
+            System.out.printf("\tID: %s\n", updatedResource.getId());
+            System.out.printf("\tName: %s\n", updatedResource.getName());
+          	System.out.printf("\tBindInterface: %s\n", updatedResource.getBindInterface());
+            System.out.printf("\tPortOverride: %s\n", newPortOverride);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
