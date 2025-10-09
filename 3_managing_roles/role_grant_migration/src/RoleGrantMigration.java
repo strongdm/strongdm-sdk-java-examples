@@ -14,30 +14,40 @@
 //
 package samples;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class RoleGrantMigration {
     public static void main(String[] args) throws Exception {
-    	// Create the SDM Client
-        Client client = new Client(
+
         // Load the SDM API keys from the environment.
         // If these values are not set in your environment,
         // please follow the documentation here:
         // https://www.strongdm.com/docs/api/api-keys/
-            System.getenv("SDM_API_ACCESS_KEY"),
-            System.getenv("SDM_API_SECRET_KEY")
-        );
+        var apiAccessKey = System.getenv("SDM_API_ACCESS_KEY");
+        var apiSecretKey = System.getenv("SDM_API_SECRET_KEY");
+        if (apiAccessKey == null || apiSecretKey == null) {
+            System.out.println("SDM_API_ACCESS_KEY and SDM_API_SECRET_KEY must be provided");
+            return;
+        }
 
-        // The RoleGrants API has been deprecated in favor of Access Rules. When
-        // using Access Rules, the best practice is to grant Resources access
-        // based on type and tags. If it is _necessary_ to grant access to
-        // specific Resources in the same way as Role Grants did, you can use
-        // Resource IDs directly in Access Rules as shown in the following
-        // examples.
+        try {
+            // Create the SDM Client
+            var opts = new ClientOptions();
+            var client = new Client(apiAccessKey, apiSecretKey, opts);
 
-        createRoleGrantViaAccessRulesExample(client);
-        deleteRoleGrantViaAccessRulesExample(client);
-        listRoleGrantsViaAccessRulesExample(client);
+            // The RoleGrants API has been deprecated in favor of Access Rules. When
+            // using Access Rules, the best practice is to grant Resources access
+            // based on type and tags. If it is _necessary_ to grant access to
+            // specific Resources in the same way as Role Grants did, you can use
+            // Resource IDs directly in Access Rules as shown in the following
+            // examples.
+
+            createRoleGrantViaAccessRulesExample(client);
+            deleteRoleGrantViaAccessRulesExample(client);
+            listRoleGrantsViaAccessRulesExample(client);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 	// Example: Create a Role grant via Access Rules

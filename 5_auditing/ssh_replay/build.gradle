@@ -1,6 +1,8 @@
 apply plugin : "application"
 
-mainClassName = "SSHReplay"
+application {
+    mainClass = "SSHReplay"
+}
 
 sourceSets.main.java.srcDirs = ['src']
 
@@ -11,6 +13,6 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.strongdm:strongdm-sdk-java:15.0.0"
+    implementation "io.github.strongdm:strongdm-sdk-java:15.20.0"
     implementation "org.json:json:20190722"
 }

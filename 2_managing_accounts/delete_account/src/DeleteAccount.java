@@ -15,7 +15,7 @@
 //
 import java.util.concurrent.TimeUnit;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 public class DeleteAccount {
     public static void main(String[] args) {

@@ -15,7 +15,7 @@
 //
 import java.util.concurrent.TimeUnit;
 
-import com.strongdm.api.v1.*;
+import com.strongdm.api.*;
 
 import java.util.Calendar;
 import java.util.Date;

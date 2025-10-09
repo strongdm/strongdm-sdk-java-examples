@@ -1,6 +1,8 @@
 apply plugin : "application"
 
-mainClassName = "ManualApprovalWorkflow"
+application {
+    mainClass = "ManualApprovalWorkflow"
+}
 
 sourceSets.main.java.srcDirs = ['src']
 
@@ -11,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.strongdm:strongdm-sdk-java:15.0.0"
+    implementation "io.github.strongdm:strongdm-sdk-java:15.20.0"
     implementation 'io.grpc:grpc-core:1.57.2'
     implementation 'io.grpc:grpc-netty:1.57.2'
     implementation 'io.grpc:grpc-protobuf:1.57.2'
