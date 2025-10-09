@@ -35,7 +35,6 @@ public class CreateDatasource {
             var client = new Client(apiAccessKey,apiSecretKey, opts);
 
             // Define a Postgres Datasource
-            // Set `postgres.setPortOverride` to `-1` to auto-generate a port if Port Overrides is enabled.
             var postgres = new Postgres();
             postgres.setName("Example Postgres Datasource");
             postgres.setHostname("example.strongdm.com");
@@ -43,10 +42,34 @@ public class CreateDatasource {
             postgres.setUsername("example");
             postgres.setPassword("example");
             postgres.setDatabase("example");
+            // Set `PortOverride` to `-1` to auto-allocate an available port.
             postgres.setPortOverride(19999);
+            // May be set to one of the ResourceIPAllocationMode constants to select between VNM,
+            // loopback, or default allocation. If not set, will behave as if configured for
+            // 'default'.
+            // For more details on Virtual Networking Mode see documentation here:
+            // https://docs.strongdm.com/admin/clients/client-networking/virtual-networking-mode
+            postgres.setBindInterface(ResourceIPAllocationMode.LOOPBACK);
             postgres.setTags(java.util.Map.of(
             "env", "example"));
-            
+
+            // You can also specify an explicit loopback IP address to bind to if Loopback IP Ranges
+            // are enabled as documented here:
+            // https://docs.strongdm.com/admin/clients/client-networking/loopback-ip-ranges
+            postgres.setBindInterface("127.0.0.2");
+
+            // ...Or if your organization has Virtual Networking Mode enabled,
+            // you may configure the resource's bind interface
+            // to automatically get an IP allocated upon creation:
+            postgres.setBindInterface(ResourceIPAllocationMode.VNM);
+
+            // ...Or specify an explicit VNM IP address to bind to...
+            postgres.setBindInterface("100.64.0.1");
+
+            // Your organization can default either to 'loopback' or 'vnm', and
+            // ResourceIPAllocationModeDefault will honor that.
+            postgres.setBindInterface(ResourceIPAllocationMode.DEFAULT);
+ 
             // Create the Datasource
             var response = client.resources()
                 .withDeadlineAfter(30, TimeUnit.SECONDS)
