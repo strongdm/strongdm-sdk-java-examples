@@ -76,21 +76,25 @@ public class UpdateWorkflow {
             System.out.println("Successfully updated workflow weight.");
             System.out.printf("\tID: %s\n", workflow.getId());
             System.out.printf("\tWeight: %s\n", workflow.getWeight());
-            
-	        // Update Workflow AutoGrant
-            var isAutoGrant = workflow.getAutoGrant();
-            workflow.setAutoGrant(!isAutoGrant);
+
+            // Create an automatic ApprovalWorkflow
+            var approvalWorkflow = new ApprovalWorkflow();
+            approvalWorkflow.setName("Auto grant example for update");
+            approvalWorkflow.setApprovalMode("automatic");
+            approvalWorkflow = client.approvalWorkflows().create(approvalWorkflow).getApprovalWorkflow();
+
+            System.out.println("Successfully created approval workflow.");
+            System.out.printf("\tID: %s\n", approvalWorkflow.getId());
+
+	        // Update Workflow ApprovalFlow
+            workflow.setApprovalFlowId(approvalWorkflow.getId());
             workflow = client.workflows().update(workflow).getWorkflow();
-            
-            System.out.println("Successfully updated workflow auto grant.");
-            System.out.printf("\tID: %s\n", workflow.getId());
-            System.out.printf("\tAuto Grant: %s\n", workflow.getAutoGrant());
-            
+
+            System.out.println("Successfully updated workflow approval flow.");
+            System.out.printf("\tNew ID: %s\n", workflow.getApprovalFlowId());
+
             // Update Workflow Enabled
-            // The requirements to enable a workflow are that the workflow must be either set
-            // up with auto grant enabled or have one or more WorkflowApprovers created for
-            // the workflow.
-            workflow.setAutoGrant(true);
+            // To enable a workflow, an approval flow must be attached.
             workflow.setEnabled(true);
             workflow = client.workflows().update(workflow).getWorkflow();
 
