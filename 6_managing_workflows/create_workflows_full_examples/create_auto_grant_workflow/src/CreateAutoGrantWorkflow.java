@@ -38,12 +38,17 @@ public class CreateAutoGrantWorkflow {
             var accessRule = new AccessRule();
             accessRule.setTags(java.util.Map.of("env", "example"));
 
+            // Create an approval flow for the workflow
+            var approvalFlow = new ApprovalWorkflow();
+            approvalFlow.setName("Auto grant example");
+            approvalFlow.setApprovalMode("automatic");
+            approvalFlow = client.approvalWorkflows().create(approvalFlow).getApprovalWorkflow();
 
             // Create a Workflow
             Workflow workflow = new Workflow();
             workflow.setName("Example Create Auto Grant Workflow Full");
             workflow.setDescription("Example Workflow Description");
-            workflow.setAutoGrant(true);
+            workflow.setApprovalFlowId(approvalFlow.getId());
             workflow.setEnabled(true);
             workflow.setAccessRules(java.util.List.of(accessRule));
 

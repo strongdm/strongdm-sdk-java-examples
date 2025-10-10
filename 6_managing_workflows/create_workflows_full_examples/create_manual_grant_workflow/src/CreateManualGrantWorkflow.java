@@ -34,15 +34,39 @@ public class CreateManualGrantWorkflow {
             var opts = new ClientOptions();
             var client = new Client(apiAccessKey, apiSecretKey, opts);
 
+            // Create an approver account that will participate in the manual approval flow.
+            var user = new User();
+            user.setEmail("create-workflow-approver-example@example.com");
+            user.setFirstName("example");
+            user.setLastName("example");
+            user = (User)client.accounts().create(user).getAccount();
+
+        	// Build a manual ApprovalWorkflow that references the approver created above.
+            var flowApprover = new ApprovalFlowApprover();
+            flowApprover.setAccountId(user.getId());
+            var approvalStep = new ApprovalFlowStep();
+            approvalStep.setQuantifier("any");
+            approvalStep.setApprovers(java.util.List.of(flowApprover));
+            var approvalFlow = new ApprovalWorkflow();
+            approvalFlow.setName("Example Manual Approval Workflow");
+            approvalFlow.setDescription("Manual approval flow to back the access workflow example");
+            approvalFlow.setApprovalMode("manual");
+            approvalFlow.setApprovalWorkflowSteps(java.util.List.of(approvalStep));
+            approvalFlow = client.approvalWorkflows().create(approvalFlow).getApprovalWorkflow();
+
+            System.out.println("Successfully created approval workflow.");
+            System.out.printf("\tID: %s\n", approvalFlow.getId());
+            System.out.printf("\tName: %s\n", approvalFlow.getName());
+
             // Create an access rule for the workflow
             var accessRule = new AccessRule();
             accessRule.setTags(java.util.Map.of("env", "example"));
-
 
             // Create a Workflow
             var workflow = new Workflow();
             workflow.setName("Example Create Manual Grant Workflow");
             workflow.setDescription("Example Workflow Description");
+            workflow.setApprovalFlowId(approvalFlow.getId());
             workflow.setAccessRules(java.util.List.of(accessRule));
 
             workflow = client.workflows().create(workflow).getWorkflow();
@@ -71,30 +95,6 @@ public class CreateManualGrantWorkflow {
             System.out.println("Successfully created workflow role.");
             System.out.printf("\tWorkflow ID: %s\n", workflowRole.getWorkflowId());
             System.out.printf("\tRole ID: %s\n", workflowRole.getRoleId());
-            
-            // To manually enable this workflow, you must add workflow approvers
-            // to this workflow.
-            // Two steps are needed to add a workflow approver:
-            // Step 1: create an Account
-            // Step 2: create a WorkflowApprover
-
-	        // Create an approver - used for creating a workflow approver
-            var user = new User();
-            user.setEmail("create-workflow-approver-example@example.com");
-            user.setFirstName("example");
-            user.setLastName("example");
-            user = (User)client.accounts().create(user).getAccount();
-
-            // Create a workflow approver
-            var workflowApprover = new WorkflowApprover();
-            workflowApprover.setWorkflowId(workflow.getId());
-            workflowApprover.setApproverId(user.getId());
-            workflowApprover = client.workflowApprovers().create(workflowApprover).getWorkflowApprover();
-
-            System.out.println("Successfully created workflow approver.");
-            System.out.printf("\tWorkflow ID: %s\n", workflowApprover.getWorkflowId());
-            System.out.printf("\tApprover ID: %s\n", workflowApprover.getApproverId());
-
                 
             // You can enable this workflow after adding workflow approvers.
             
